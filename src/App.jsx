@@ -1,0 +1,64 @@
+import "./App.css";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
+import AddCafe from "./pages/addCafe";
+import AddStudentB40 from "./pages/addStudentb40";
+import AddStudentNB40 from "./pages/addStudentNb40";
+import Cafe from "./pages/usersdata/cafe";
+import StudentB40 from "./pages/usersdata/studentB40";
+import StudentNB40 from "./pages/usersdata/studentNB40";
+import AddWallet from "./pages/addWallet";
+import AllCafe from "./pages/transactions/allCafe";
+import AllStudentB40 from "./pages/transactions/allStudentB40";
+import AllStudentNB40 from "./pages/transactions/allStudentNB40";
+import TransCafe from "./pages/transactions/transCafe";
+import CafeDetails from "./pages/transactions/details/cafe/cafeDetails";
+import StudentB40Details from "./pages/transactions/details/student/studentB40Details";
+import StudentNB40Details from "./pages/transactions/details/student/studentNB40Details";
+import NoPage from "./pages/nopage";
+
+export default function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/addCafe" element={<AddCafe />} />
+          <Route path="/addStudentb40" element={<AddStudentB40 />} />
+          <Route path="/addStudentNb40" element={<AddStudentNB40 />} />
+          <Route path="/usersdata/cafe" element={<Cafe />} />
+          <Route path="/usersdata/studentB40" element={<StudentB40 />} />
+          <Route path="/usersdata/studentNB40" element={<StudentNB40 />} />
+          <Route path="/addWallet" element={<AddWallet />} />
+          <Route path="/transactions/allCafe" element={<AllCafe />} />
+          <Route
+            path="/transactions/allStudentB40"
+            element={<AllStudentB40 />}
+          />
+          <Route
+            path="/transactions/allStudentNB40"
+            element={<AllStudentNB40 />}
+          />
+          <Route path="/transactions/transCafe" element={<TransCafe />} />
+          <Route
+            path="/transactions/details/cafeDetails"
+            element={<CafeDetails />}
+          />
+          <Route
+            path="/transactions/details/student/studentB40Details"
+            element={<StudentB40Details />}
+          />
+          <Route
+            path="/transactions/details/student/studentNB40Details"
+            element={<StudentNB40Details />}
+          />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}

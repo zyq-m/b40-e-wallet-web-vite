@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fff7d9;
+}
+.login {
+  background-image: url("./assets/bg-1.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.bg2 {
+  background-image: url("./assets/bg-2.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  min-height: 100vh;
+}
