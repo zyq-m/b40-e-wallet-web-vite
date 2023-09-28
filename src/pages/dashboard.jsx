@@ -1,6 +1,29 @@
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
+import { socket } from "../services/socketInstance";
 
 export default function Dashboard() {
+  const [stats, setStats] = useState({
+    student: 0,
+    cafe: 0,
+    transaction: 0,
+    point: 0,
+  });
+
+  useEffect(() => {
+    socket.on("admin:get-overall", (data) => {
+      // data response
+      // {
+      //   student: 4,
+      //   cafe: 5,
+      //   coupon: 5,
+      //   point: 10,
+      // }
+      console.log(data);
+      // setStats(data);
+    });
+  }, [socket]);
+
   return (
     <>
       <Layout>
@@ -12,7 +35,9 @@ export default function Dashboard() {
                 Total Student
               </div>
               <div className="mt-3 text-gray-600">
-                <span className="font-semibold text-black text-7xl">3410</span>{" "}
+                <span className="font-semibold text-black text-7xl">
+                  {stats.student}
+                </span>{" "}
                 students
               </div>
             </div>
@@ -21,7 +46,9 @@ export default function Dashboard() {
                 Total Cafe
               </div>
               <div className="mt-3 text-gray-600">
-                <span className="font-semibold text-black text-7xl">200</span>{" "}
+                <span className="font-semibold text-black text-7xl">
+                  {stats.cafe}
+                </span>{" "}
                 cafes
               </div>
             </div>
@@ -30,7 +57,9 @@ export default function Dashboard() {
                 Total Transaction
               </div>
               <div className="mt-3 text-gray-600 ">
-                <span className="font-semibold text-black text-7xl">9837</span>{" "}
+                <span className="font-semibold text-black text-7xl">
+                  {stats.transaction}
+                </span>{" "}
                 transactions
               </div>
             </div>

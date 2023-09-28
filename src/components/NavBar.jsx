@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DD_Registrations from "./DD_Registrations";
 import DD_UsersData from "./DD_UsersData";
 import DD_Transactions from "./DD_Transactions";
+import { logout } from "../api/auth";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -15,6 +16,16 @@ const NavBar = () => {
     "Student B40",
     "Student Non-B40",
   ];
+
+  const onLogout = async () => {
+    try {
+      await logout();
+      localStorage.clear();
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <nav className="flex items-center justify-between px-4 bg-white border-b justify-self-stretch">
@@ -47,7 +58,7 @@ const NavBar = () => {
       <div>
         <button
           type="button"
-          onClick={() => navigate("/")}
+          onClick={onLogout}
           className="py-2 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
         >
           Logout

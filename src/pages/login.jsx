@@ -3,9 +3,38 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 import { emailIcon, passwordIcon, logo } from "../assets/index";
 // import Header from "../components/Header";
+import { login } from "../api/auth";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login(email, password);
+
+      // Store token
+      localStorage.setItem("access-token", res.data.accessToken);
+      localStorage.setItem("refresh-token", res.data.refreshToken);
+
+      navigate("/dashboard");
+    } catch (error) {
+      // Invalid credential
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -19,7 +48,7 @@ export default function Login() {
             <h1 className="mb-8 text-4xl font-bold text-center">
               Welcome Back
             </h1>
-            <form>
+            <form onSubmit={onLogin}>
               <div className="grid gap-4 grid-cols-[max-content_1fr] items-center">
                 <img
                   className="justify-self-center w-[2.5rem]"
@@ -27,6 +56,9 @@ export default function Login() {
                   alt=""
                 />
                 <input
+                  type="email"
+                  id="email"
+                  onChange={handleEmailChange}
                   className="w-full px-2 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter Your Email..."
                 />
@@ -36,14 +68,16 @@ export default function Login() {
                   alt=""
                 />
                 <input
+                  type="password"
+                  id="password"
+                  onChange={handlePasswordChange}
                   className="w-full px-2 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter Your Password..."
                 />
               </div>
               <div className="flex justify-center mt-6">
                 <button
-                  type="button"
-                  onClick={() => navigate("/dashboard")}
+                  type="submit"
                   className="py-2 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
                 >
                   Sign In
