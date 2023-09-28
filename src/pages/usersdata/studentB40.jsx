@@ -8,18 +8,21 @@ export default function StudentB40() {
       matric_no: "123456",
       ic_no: "123-45-6789",
       wallet_amount: 500.0,
+      pointwallet_amount: 15,
     },
     {
       student_name: "Siti Fatimah",
       matric_no: "456789",
       ic_no: "456-78-9012",
       wallet_amount: 300.0,
+      pointwallet_amount: 10,
     },
     {
       student_name: "Razif Rahman",
       matric_no: "789012",
       ic_no: "789-01-2345",
       wallet_amount: 600.0,
+      pointwallet_amount: 20,
     },
     // Add more student objects as needed
   ];
@@ -30,18 +33,21 @@ export default function StudentB40() {
       matric_no: "987654",
       ic_no: "987-65-4321",
       wallet_amount: 250.0,
+      pointwallet_amount: 15,
     },
     {
       student_name: "Fauzi Hamzah",
       matric_no: "654321",
       ic_no: "654-32-1098",
       wallet_amount: 150.0,
+      pointwallet_amount: 5,
     },
     {
       student_name: "Lina Lim",
       matric_no: "321098",
       ic_no: "321-09-8765",
       wallet_amount: 450.0,
+      pointwallet_amount: 15,
     },
     // Add more student objects as needed
   ];
@@ -69,14 +75,22 @@ export default function StudentB40() {
                     Balance(RM)
                   </th>
                   <th className="text-center pb-[37px] font-medium">
+                    Balance(Point)
+                  </th>
+                  <th className="text-center pb-[37px] font-medium">
                     Account Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {unsuspendedStudents.map((data, i) => {
-                  const { student_name, matric_no, ic_no, wallet_amount } =
-                    data;
+                  const {
+                    student_name,
+                    matric_no,
+                    ic_no,
+                    wallet_amount,
+                    pointwallet_amount,
+                  } = data;
 
                   return (
                     <tr key={i} className="text-gray-500">
@@ -85,6 +99,7 @@ export default function StudentB40() {
                       <td className="pb-6 text-left">{matric_no}</td>
                       <td className="pb-6 text-left">{ic_no}</td>
                       <td className="pb-6 text-center">{wallet_amount}</td>
+                      <td className="pb-6 text-center">{pointwallet_amount}</td>
                       <td className="pb-6 text-center">
                         <button
                           type="button"
@@ -117,14 +132,22 @@ export default function StudentB40() {
                     Balance(RM)
                   </th>
                   <th className="text-center pb-[37px] font-medium">
+                    Balance(Point)
+                  </th>
+                  <th className="text-center pb-[37px] font-medium">
                     Account Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {suspendedStudents.map((data, i) => {
-                  const { student_name, matric_no, ic_no, wallet_amount } =
-                    data;
+                  const {
+                    student_name,
+                    matric_no,
+                    ic_no,
+                    wallet_amount,
+                    pointwallet_amount,
+                  } = data;
 
                   return (
                     <tr key={i} className="text-gray-500">
@@ -133,6 +156,7 @@ export default function StudentB40() {
                       <td className="pb-6 text-left">{matric_no}</td>
                       <td className="pb-6 text-left">{ic_no}</td>
                       <td className="pb-6 text-center">{wallet_amount}</td>
+                      <td className="pb-6 text-center">{pointwallet_amount}</td>
                       <td className="pb-6 text-center">
                         <button
                           type="button"
