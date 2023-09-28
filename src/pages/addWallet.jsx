@@ -54,7 +54,7 @@ export default function AddWallet() {
 
   return (
     <Layout>
-      <div className="items-center w-2/3 mt-4">
+      <div className="items-center w-2/3 mt-7 mb-7">
         <form>
           <input
             className="w-full px-2 py-2 border border-gray-300 rounded-md"
@@ -68,7 +68,7 @@ export default function AddWallet() {
           </p>
         </div>
         <div className="mt-4 p-4 pt-0 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
-          <table className="centertable">
+          <table className="w-full mx-auto text-center">
             <thead>
               <tr>
                 <th className="font-medium pt-[15px] pb-[15px] text-center w-[7%] ">

@@ -114,7 +114,7 @@ export default function StudentB40() {
                   </th>
                   <th className="text-left pb-[37px] font-medium">IC Number</th>
                   <th className="text-center pb-[37px] font-medium">
-                    Balance(RM)
+                    Balance(Point)
                   </th>
                   <th className="text-center pb-[37px] font-medium">
                     Account Action
