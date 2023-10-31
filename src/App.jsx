@@ -4,8 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import AddCafe from "./pages/addCafe";
-import AddStudentB40 from "./pages/addStudentb40";
-import AddStudentNB40 from "./pages/addStudentNb40";
+import AddStudent from "./pages/addStudent";
 import Cafe from "./pages/usersdata/cafe";
 import StudentB40 from "./pages/usersdata/studentB40";
 import StudentNB40 from "./pages/usersdata/studentNB40";
@@ -17,6 +16,9 @@ import TransCafe from "./pages/transactions/transCafe";
 import CafeDetails from "./pages/transactions/details/cafe/cafeDetails";
 import StudentB40Details from "./pages/transactions/details/student/studentB40Details";
 import StudentNB40Details from "./pages/transactions/details/student/studentNB40Details";
+import TestingGet from "./pages/testingGet";
+import TestingPost from "./pages/testingPost";
+import TestingPut from "./pages/testingPut";
 import NoPage from "./pages/nopage";
 
 export default function App() {
@@ -28,8 +30,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addCafe" element={<AddCafe />} />
-          <Route path="/addStudentb40" element={<AddStudentB40 />} />
-          <Route path="/addStudentNb40" element={<AddStudentNB40 />} />
+          <Route path="/addStudent" element={<AddStudent />} />
           <Route path="/usersdata/cafe" element={<Cafe />} />
           <Route path="/usersdata/studentB40" element={<StudentB40 />} />
           <Route path="/usersdata/studentNB40" element={<StudentNB40 />} />
@@ -56,6 +57,9 @@ export default function App() {
             path="/transactions/details/student/studentNB40Details"
             element={<StudentNB40Details />}
           />
+          <Route path="/testingGet" element={<TestingGet />} />
+          <Route path="/testingPost" element={<TestingPost />} />
+          <Route path="/testingPut" element={<TestingPut />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

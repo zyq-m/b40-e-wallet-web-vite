@@ -2,19 +2,26 @@ import { logo } from "../assets";
 import { useNavigate } from "react-router-dom";
 import DD_Registrations from "./DD_Registrations";
 import DD_UsersData from "./DD_UsersData";
-import DD_Transactions from "./DD_Transactions";
+import DD_Transactions from "./DD_Transactions"
+import DD_Testing from "./DD_Testing";
 import { logout } from "../api/auth";
+
 
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const dropdownOptions1 = ["Cafe Owner", "Student B40", "Student Non-B40"];
+  const dropdownOptions1 = ["Cafe Owner", "Student"];
   const dropdownOptions2 = ["Cafe Owner", "Student B40", "Student Non-B40"];
   const dropdownOptions3 = [
     "All-Cafe",
     "Cafe Owners",
     "Student B40",
     "Student Non-B40",
+  ];
+  const dropdownOptions4 = [
+    "Testing Get",
+    "Testing Post",
+    "Testing Put",
   ];
 
   const onLogout = async () => {
@@ -53,6 +60,9 @@ const NavBar = () => {
         </button>
 
         <DD_Transactions options={dropdownOptions3} />
+
+        <DD_Testing options={dropdownOptions4} />
+
       </div>
 
       <div>
