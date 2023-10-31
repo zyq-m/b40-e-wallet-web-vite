@@ -3,7 +3,7 @@ import { api } from "../services/axiosInstance";
 export const setCafe = async (cafeData) => {
   try {
     const response = await api.post("/admin/user/register/cafe", cafeData);
-    
+
     // Log the response data for debugging purposes
     console.log("API Response:", response.data);
 

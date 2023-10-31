@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 export default function StudentNB40() {
   const [students, setStudents] = useState([]);
   const [searchText, setSearchText] = useState("");
-  
+
   useEffect(() => {
     // Fetch cafe data when the component mounts
     fetchDataStudent();
@@ -13,12 +13,12 @@ export default function StudentNB40() {
 
   const fetchDataStudent = async () => {
     try {
-        const response = await getStudentData();
-        setStudents(response.data);
+      const response = await getStudentData();
+      setStudents(response.data);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-  }; 
+  };
 
   //suspend user
   const handleSuspend = async (userId) => {
@@ -41,17 +41,23 @@ export default function StudentNB40() {
   };
 
   // Filter data for active and inactive status
-  const unsuspendedStudents = students.filter((studentItem) => studentItem.user.active);
-  const suspendedStudents = students.filter((studentItem) => !studentItem.user.active);
+  const unsuspendedStudents = students.filter(
+    (studentItem) => studentItem.user.active
+  );
+  const suspendedStudents = students.filter(
+    (studentItem) => !studentItem.user.active
+  );
 
   // Filter data based on searchText
-  const filteredUnsuspendedStudents = unsuspendedStudents.filter((studentItem) => {
-    const searchTerm = searchText.toLowerCase();
-    return (
-      studentItem.matricNo.toLowerCase().includes(searchTerm) ||
-      studentItem.icNo.toLowerCase().includes(searchTerm)
-    );
-  });
+  const filteredUnsuspendedStudents = unsuspendedStudents.filter(
+    (studentItem) => {
+      const searchTerm = searchText.toLowerCase();
+      return (
+        studentItem.matricNo.toLowerCase().includes(searchTerm) ||
+        studentItem.icNo.toLowerCase().includes(searchTerm)
+      );
+    }
+  );
 
   const filteredSuspendedStudents = suspendedStudents.filter((studentItem) => {
     const searchTerm = searchText.toLowerCase();
@@ -60,7 +66,6 @@ export default function StudentNB40() {
       studentItem.icNo.toLowerCase().includes(searchTerm)
     );
   });
-
 
   return (
     <Layout>
@@ -73,29 +78,30 @@ export default function StudentNB40() {
           value={searchText}
           onChange={({ target }) => setSearchText(target.value)}
         />
-          <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
-            <table className="w-full mx-auto text-center">
-              <thead>
-                <tr>
-                  <th className="text-center w-[2rem] pb-[37px]"></th>
-                  <th className="text-left pb-[37px] font-medium">
-                    Matric Number
-                  </th>
-                  <th className="text-left pb-[37px] font-medium">IC Number</th>
-                  <th className="text-left pb-[37px] font-medium">
-                    User ID
-                  </th>
-                  <th className="text-center pb-[37px] font-medium">
-                    B40 Student
-                  </th>
-                  <th className="text-center pb-[37px] font-medium">Active Status</th>
-                  <th className="text-center pb-[37px] font-medium">
-                    Account Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-              {filteredUnsuspendedStudents.filter((studentItem) => studentItem.b40 === false) // Filter only where b40 is false
+        <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
+          <table className="w-full mx-auto text-center">
+            <thead>
+              <tr>
+                <th className="text-center w-[2rem] pb-[37px]"></th>
+                <th className="text-left pb-[37px] font-medium">
+                  Matric Number
+                </th>
+                <th className="text-left pb-[37px] font-medium">IC Number</th>
+                <th className="text-left pb-[37px] font-medium">User ID</th>
+                <th className="text-center pb-[37px] font-medium">
+                  B40 Student
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Active Status
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUnsuspendedStudents
+                .filter((studentItem) => studentItem.b40 === false) // Filter only where b40 is false
                 .map((studentItem, index) => (
                   <tr key={index} className="text-gray-500">
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
@@ -105,7 +111,9 @@ export default function StudentNB40() {
                     <td className="pb-6 text-center">
                       {studentItem.b40 ? "Yes" : "No"}
                     </td>
-                    <td className="pb-6 text-center">{studentItem.user.active ? "Active" : "Inactive"}</td>
+                    <td className="pb-6 text-center">
+                      {studentItem.user.active ? "Active" : "Inactive"}
+                    </td>
                     <td>
                       <button
                         type="button"
@@ -116,43 +124,48 @@ export default function StudentNB40() {
                       </button>
                     </td>
                   </tr>
-              ))}
-              </tbody>
-            </table>
-          </div>
+                ))}
+            </tbody>
+          </table>
+        </div>
 
-          <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
-            <h2 className="mb-4 text-lg font-bold">Suspended Students</h2>
-            <table className="w-full mx-auto text-center">
+        <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
+          <h2 className="mb-4 text-lg font-bold">Suspended Students</h2>
+          <table className="w-full mx-auto text-center">
             <thead>
-            <tr>
-                  <th className="text-center w-[2rem] pb-[37px]"></th>
-                  <th className="text-left pb-[37px] font-medium">
-                    Matric Number
-                  </th>
-                  <th className="text-left pb-[37px] font-medium">IC Number</th>
-                  <th className="text-left pb-[37px] font-medium">
-                    User ID
-                  </th>
-                  <th className="text-center pb-[37px] font-medium">
-                    B40 Student
-                  </th>
-                  <th className="text-center pb-[37px] font-medium">Active Status</th>
-                  <th className="text-center pb-[37px] font-medium">
-                    Account Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-              {filteredSuspendedStudents.filter((studentItem) => studentItem.b40 === false) // Filter only where b40 is true
+              <tr>
+                <th className="text-center w-[2rem] pb-[37px]"></th>
+                <th className="text-left pb-[37px] font-medium">
+                  Matric Number
+                </th>
+                <th className="text-left pb-[37px] font-medium">IC Number</th>
+                <th className="text-left pb-[37px] font-medium">User ID</th>
+                <th className="text-center pb-[37px] font-medium">
+                  B40 Student
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Active Status
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredSuspendedStudents
+                .filter((studentItem) => studentItem.b40 === false) // Filter only where b40 is true
                 .map((studentItem, index) => (
                   <tr key={index} className="text-gray-500">
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
                     <td className="pb-6 text-left">{studentItem.matricNo}</td>
                     <td className="pb-6 text-left">{studentItem.icNo}</td>
                     <td className="pb-6 text-center">{studentItem.userId}</td>
-                    <td className="pb-6 text-center">{studentItem.b40 ? "Yes" : "No"}</td>
-                    <td className="pb-6 text-center">{studentItem.user.active ? "Active" : "Inactive"}</td>
+                    <td className="pb-6 text-center">
+                      {studentItem.b40 ? "Yes" : "No"}
+                    </td>
+                    <td className="pb-6 text-center">
+                      {studentItem.user.active ? "Active" : "Inactive"}
+                    </td>
                     <td>
                       <button
                         type="button"
@@ -163,10 +176,10 @@ export default function StudentNB40() {
                       </button>
                     </td>
                   </tr>
-              ))}
-              </tbody>
-            </table>
-          </div>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );

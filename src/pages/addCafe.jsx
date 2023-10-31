@@ -6,20 +6,20 @@ import { registerCafe } from "../api/auth";
 export default function AddCafe() {
   // const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    cafeId: '',
-    cafeName: '',
-    accountNo: '',
-    phoneNo: '',
-    address: '',
-    password: '',
+    name: "",
+    cafeId: "",
+    cafeName: "",
+    accountNo: "",
+    phoneNo: "",
+    address: "",
+    password: "",
   });
 
   const [apiResponse, setApiResponse] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-  
+
     setFormData({
       ...formData,
       [name]: value,
@@ -46,20 +46,20 @@ export default function AddCafe() {
 
       // Optionally, you can reset the form fields after successful registration
       setFormData({
-        name: '',
-        cafeId: '',
-        cafeName: '',
-        accountNo: '',
-        phoneNo: '',
-        address: '',
-        password: '',
+        name: "",
+        cafeId: "",
+        cafeName: "",
+        accountNo: "",
+        phoneNo: "",
+        address: "",
+        password: "",
       });
     } catch (error) {
       console.error("Error registering cafe:", error);
       setApiResponse(error);
     }
   };
-  
+
   return (
     <Layout>
       <div className="p-9 rounded-2xl shadow-md bg-white w-[35rem]">
@@ -120,14 +120,14 @@ export default function AddCafe() {
             />
           </div>
           <div className="mb-2" />
-            <input
-              type="password"
-              name="password"
-              className="w-full px-2 py-2 border border-gray-300 rounded-md"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+          <input
+            type="password"
+            name="password"
+            className="w-full px-2 py-2 border border-gray-300 rounded-md"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
           <div className="flex flex-col items-center">
             <button
               type="submit"
@@ -144,7 +144,9 @@ export default function AddCafe() {
             {apiResponse instanceof Error ? (
               <div className="text-red-500">{apiResponse.message}</div>
             ) : (
-              <div className="text-green-500">Cafe registered successfully!</div>
+              <div className="text-green-500">
+                Cafe registered successfully!
+              </div>
             )}
           </div>
         )}

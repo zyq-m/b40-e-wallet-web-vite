@@ -72,33 +72,38 @@ const getData = async (endpoint, params = {}) => {
   }
 };
 
-
 export const getStudentData = async () => {
-  return getData('/admin/student');
+  return getData("/admin/student");
 };
 
 export const getCafeData = async () => {
-  return getData('/admin/cafe');
+  return getData("/admin/cafe");
 };
 
 export const getStudentTransactions = async () => {
-  return getData('/admin/student/transactions');
+  return getData("/admin/student/transactions");
 };
 
 export const getCafeTransactions = async () => {
-  return getData('/admin/cafe/transactions');
+  return getData("/admin/cafe/transactions");
 };
 
 export const getStudentPointsB40 = async () => {
-  return getData('/admin/student/points', { params: { b40: true } });
+  return getData("/admin/student/points", { params: { b40: true } });
 };
 
 export const getStudentPointsNB40 = async () => {
-  return getData('/admin/student/points', { params: { b40: false } });
+  return getData("/admin/student/points", { params: { b40: false } });
 };
 
-export const registerStudent = async (matricNo, icNo, b40, name, phoneNo, address) => {
-  
+export const registerStudent = async (
+  matricNo,
+  icNo,
+  b40,
+  name,
+  phoneNo,
+  address
+) => {
   try {
     const response = await api.post("/admin/user/register/student", {
       matricNo: matricNo,
@@ -117,8 +122,15 @@ export const registerStudent = async (matricNo, icNo, b40, name, phoneNo, addres
   }
 };
 
-export const registerCafe = async (cafeId, cafeName, accountNo, name, phoneNo, address, password) => {
-  
+export const registerCafe = async (
+  cafeId,
+  cafeName,
+  accountNo,
+  name,
+  phoneNo,
+  address,
+  password
+) => {
   try {
     const response = await api.post("/admin/user/register/cafe", {
       cafeId: cafeId,

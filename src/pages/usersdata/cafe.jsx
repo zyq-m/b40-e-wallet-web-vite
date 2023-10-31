@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import { getCafeData, suspendUser, unsuspendUser, } from "../../api/auth";
+import { getCafeData, suspendUser, unsuspendUser } from "../../api/auth";
 import { useState, useEffect } from "react";
 
 export default function Cafe() {
@@ -12,58 +12,58 @@ export default function Cafe() {
   }, []);
 
   const fetchDataCafe = async () => {
-  try {
+    try {
       const response = await getCafeData();
       setCafes(response.data);
-  } catch (error) {
+    } catch (error) {
       console.error(error);
-  }
-};
+    }
+  };
 
-//suspend user
-const handleSuspend = async (userId) => {
-  try {
-    await suspendUser(userId);
-    await fetchDataCafe();
-  } catch (error) {
-    console.error("Error suspending cafe:", error);
-  }
-};
+  //suspend user
+  const handleSuspend = async (userId) => {
+    try {
+      await suspendUser(userId);
+      await fetchDataCafe();
+    } catch (error) {
+      console.error("Error suspending cafe:", error);
+    }
+  };
 
-//unsuspend user
-const handleUnsuspend = async (userId) => {
-  try {
-    await unsuspendUser(userId); // Suspend the user (active = false)
-    // await fetchDataCafe();
-    await fetchDataCafe();
-  } catch (error) {
-    console.error("Error unsuspending cafe:", error);
-    // Handle the error as needed.
-  }
-};
-    
-// Cafe Filter data for active and inactive status
-const unsuspendedCafes = cafe.filter((cafeItem) => cafeItem.user.active);
-const suspendedCafes = cafe.filter((cafeItem) => !cafeItem.user.active);
+  //unsuspend user
+  const handleUnsuspend = async (userId) => {
+    try {
+      await unsuspendUser(userId); // Suspend the user (active = false)
+      // await fetchDataCafe();
+      await fetchDataCafe();
+    } catch (error) {
+      console.error("Error unsuspending cafe:", error);
+      // Handle the error as needed.
+    }
+  };
 
-// Filter data based on searchText
-const filteredUnsuspendedCafes = unsuspendedCafes.filter((cafeItem) => {
-  const searchTerm = searchText.toLowerCase();
-  return (
-    cafeItem.id.toLowerCase().includes(searchTerm) ||
-    cafeItem.name.toLowerCase().includes(searchTerm) ||
-    cafeItem.accountNo.toLowerCase().includes(searchTerm)
-  );
-});
+  // Cafe Filter data for active and inactive status
+  const unsuspendedCafes = cafe.filter((cafeItem) => cafeItem.user.active);
+  const suspendedCafes = cafe.filter((cafeItem) => !cafeItem.user.active);
 
-const filteredSuspendedCafes = suspendedCafes.filter((cafeItem) => {
-  const searchTerm = searchText.toLowerCase();
-  return (
-    cafeItem.id.toLowerCase().includes(searchTerm) ||
-    cafeItem.name.toLowerCase().includes(searchTerm) ||
-    cafeItem.accountNo.toLowerCase().includes(searchTerm)
-  );
-});
+  // Filter data based on searchText
+  const filteredUnsuspendedCafes = unsuspendedCafes.filter((cafeItem) => {
+    const searchTerm = searchText.toLowerCase();
+    return (
+      cafeItem.id.toLowerCase().includes(searchTerm) ||
+      cafeItem.name.toLowerCase().includes(searchTerm) ||
+      cafeItem.accountNo.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  const filteredSuspendedCafes = suspendedCafes.filter((cafeItem) => {
+    const searchTerm = searchText.toLowerCase();
+    return (
+      cafeItem.id.toLowerCase().includes(searchTerm) ||
+      cafeItem.name.toLowerCase().includes(searchTerm) ||
+      cafeItem.accountNo.toLowerCase().includes(searchTerm)
+    );
+  });
   return (
     <Layout>
       <div className="items-center w-2/3 mt-7 mb-7">
@@ -79,15 +79,21 @@ const filteredSuspendedCafes = suspendedCafes.filter((cafeItem) => {
           {/* Display unsuspended cafes */}
           <table className="w-full mx-auto text-center">
             <thead>
-            <tr>
-              <th className="text-center w-[2rem] pb-[37px]"></th>
-              <th className="text-center pb-[37px] font-medium">ID</th>
-              <th className="text-center pb-[37px] font-medium">Name</th>
-              <th className="text-center pb-[37px] font-medium">Account No</th>
-              <th className="text-center pb-[37px] font-medium">User ID</th>
-              <th className="text-center pb-[37px] font-medium">Active Status</th>
-              <th className="text-center pb-[37px] font-medium">Account Action</th>
-            </tr>
+              <tr>
+                <th className="text-center w-[2rem] pb-[37px]"></th>
+                <th className="text-center pb-[37px] font-medium">ID</th>
+                <th className="text-center pb-[37px] font-medium">Name</th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account No
+                </th>
+                <th className="text-center pb-[37px] font-medium">User ID</th>
+                <th className="text-center pb-[37px] font-medium">
+                  Active Status
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account Action
+                </th>
+              </tr>
             </thead>
             <tbody>
               {filteredUnsuspendedCafes.map((cafeItem, index) => (
@@ -97,7 +103,9 @@ const filteredSuspendedCafes = suspendedCafes.filter((cafeItem) => {
                   <td className="pb-6 text-left">{cafeItem.name}</td>
                   <td className="pb-6 text-center">{cafeItem.accountNo}</td>
                   <td className="pb-6 text-center">{cafeItem.userId}</td>
-                  <td className="pb-6 text-center">{cafeItem.user.active ? "Active" : "Inactive"}</td>
+                  <td className="pb-6 text-center">
+                    {cafeItem.user.active ? "Active" : "Inactive"}
+                  </td>
                   <td>
                     <button
                       type="button"
@@ -107,50 +115,58 @@ const filteredSuspendedCafes = suspendedCafes.filter((cafeItem) => {
                       Suspend
                     </button>
                   </td>
-              </tr>
+                </tr>
               ))}
             </tbody>
           </table>
         </div>
 
         {/* Display suspended cafes */}
-          <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
-            <h2 className="mb-4 text-lg font-bold">Suspended Cafe</h2>
-            <table className="w-full mx-auto text-center">
-              <thead>
+        <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
+          <h2 className="mb-4 text-lg font-bold">Suspended Cafe</h2>
+          <table className="w-full mx-auto text-center">
+            <thead>
               <tr>
                 <th className="text-center w-[2rem] pb-[37px]"></th>
                 <th className="text-center pb-[37px] font-medium">ID</th>
                 <th className="text-center pb-[37px] font-medium">Name</th>
-                <th className="text-center pb-[37px] font-medium">Account No</th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account No
+                </th>
                 <th className="text-center pb-[37px] font-medium">User ID</th>
-                <th className="text-center pb-[37px] font-medium">Active Status</th>
-                <th className="text-center pb-[37px] font-medium">Account Action</th>
+                <th className="text-center pb-[37px] font-medium">
+                  Active Status
+                </th>
+                <th className="text-center pb-[37px] font-medium">
+                  Account Action
+                </th>
               </tr>
-              </thead>
-              <tbody>
-                {filteredSuspendedCafes.map((cafeItem, index) => (
-                  <tr key={index} className="text-gray-500">
-                    <td className="pb-6 pr-4 text-center">{index + 1}.</td>
-                    <td className="pb-6 text-left">{cafeItem.id}</td>
-                    <td className="pb-6 text-left">{cafeItem.name}</td>
-                    <td className="pb-6 text-center">{cafeItem.accountNo}</td>
-                    <td className="pb-6 text-center">{cafeItem.userId}</td>
-                    <td className="pb-6 text-center">{cafeItem.user.active ? "Active" : "Inactive"}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="py-2 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#289a1c] text-white hover:bg-[#16500f] focus:outline-none focus:ring-2 focus:ring-[#289a1c] focus:ring-offset-2 transition-all text-sm"
-                        onClick={() => handleUnsuspend(cafeItem.userId)}
-                      >
-                        Unsuspend
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            </thead>
+            <tbody>
+              {filteredSuspendedCafes.map((cafeItem, index) => (
+                <tr key={index} className="text-gray-500">
+                  <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                  <td className="pb-6 text-left">{cafeItem.id}</td>
+                  <td className="pb-6 text-left">{cafeItem.name}</td>
+                  <td className="pb-6 text-center">{cafeItem.accountNo}</td>
+                  <td className="pb-6 text-center">{cafeItem.userId}</td>
+                  <td className="pb-6 text-center">
+                    {cafeItem.user.active ? "Active" : "Inactive"}
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="py-2 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#289a1c] text-white hover:bg-[#16500f] focus:outline-none focus:ring-2 focus:ring-[#289a1c] focus:ring-offset-2 transition-all text-sm"
+                      onClick={() => handleUnsuspend(cafeItem.userId)}
+                    >
+                      Unsuspend
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );
