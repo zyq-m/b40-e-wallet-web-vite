@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const DD_Registrations = ({ options }) => {
+const DD_Testing = ({ options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -19,11 +19,14 @@ const DD_Registrations = ({ options }) => {
     closeDropdown();
     // Conditionally navigate based on the selected option
     switch (option) {
-      case "Cafe Owner":
-        navigate("/addCafe");
+      case "Testing Get":
+        navigate("/testingGet");
         break;
-      case "Student":
-        navigate("/addStudent");
+      case "Testing Post":
+        navigate("/testingPost");
+        break;
+      case "Testing Put":
+        navigate("/testingPut");
         break;
       default:
         // Handle other options or provide a default behavior
@@ -55,7 +58,7 @@ const DD_Registrations = ({ options }) => {
         className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
       >
         <div>
-          <span className="mr-2">Registrations</span>
+          <span className="mr-2">Testing</span>
           <svg
             className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 inline" // Add the "inline" class
             width="16"
@@ -90,8 +93,8 @@ const DD_Registrations = ({ options }) => {
   );
 };
 
-DD_Registrations.propTypes = {
+DD_Testing.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default DD_Registrations;
+export default DD_Testing;

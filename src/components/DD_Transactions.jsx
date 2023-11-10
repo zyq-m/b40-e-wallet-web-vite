@@ -55,7 +55,7 @@ const DD_Transactions = ({ options }) => {
   }, []);
 
   return (
-    <div className="relative inline-flex" ref={dropdownRef}>
+    <div className="relative inline" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"

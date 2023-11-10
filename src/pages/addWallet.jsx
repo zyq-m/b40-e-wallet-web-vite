@@ -1,56 +1,86 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { getStudentData, updateB40WalletAmount } from "../api/auth";
 
 export default function AddWallet() {
-  const navigate = useNavigate();
-  // Define state to manage user data
-  const [users, setUsers] = useState([]);
+  const [student, setStudent] = useState([]);
+  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [pointsToAdd, setPointsToAdd] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectAll, setSelectAll] = useState(false); // New state variable
 
   // Simulate fetching user data from an API or database
   useEffect(() => {
-    const staticUserData = [
-      {
-        student_name: "Ahmad Ali",
-        matric_no: "123456",
-        ic_no: "123-45-6789",
-        wallet_amount: 500.0,
-      },
-      {
-        student_name: "Siti Fatimah",
-        matric_no: "456789",
-        ic_no: "456-78-9012",
-        wallet_amount: 300.0,
-      },
-      {
-        student_name: "Razif Rahman",
-        matric_no: "789012",
-        ic_no: "789-01-2345",
-        wallet_amount: 600.0,
-      },
-      {
-        student_name: "Nora Abdullah",
-        matric_no: "987654",
-        ic_no: "987-65-4321",
-        wallet_amount: 250.0,
-      },
-      {
-        student_name: "Fauzi Hamzah",
-        matric_no: "654321",
-        ic_no: "654-32-1098",
-        wallet_amount: 150.0,
-      },
-      {
-        student_name: "Lina Lim",
-        matric_no: "321098",
-        ic_no: "321-09-8765",
-        wallet_amount: 450.0,
-      },
-      // Add more student objects as needed
-    ];
-
-    setUsers(staticUserData);
+    // fetchDataCafe();
+    fetchDataStudent();
   }, []);
+
+  const fetchDataStudent = async () => {
+    try {
+      const response = await getStudentData();
+      setStudent(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to handle "Select All" button click
+  const handleSelectAll = () => {
+    if (selectAll) {
+      // If "Select All" is already checked, uncheck all checkboxes
+      setSelectedStudents([]);
+    } else {
+      // If "Select All" is not checked, select all checkboxes
+      const allStudentIds = student
+        .filter((studentItem) => studentItem.b40)
+        .map((studentItem) => studentItem.matricNo);
+      setSelectedStudents(allStudentIds);
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleCheckboxChange = (studentId) => {
+    setSelectedStudents((prevSelectedStudents) => {
+      if (prevSelectedStudents.includes(studentId)) {
+        return prevSelectedStudents.filter((id) => id !== studentId);
+      } else {
+        return [...prevSelectedStudents, studentId];
+      }
+    });
+  };
+
+  // Function to add points to selected students
+  const handleAddPoints = async () => {
+    if (pointsToAdd <= 0 || selectedStudents.length === 0) {
+      return; // No points to add or no students selected
+    }
+
+    try {
+      // Iterate through selected students and add points to each
+      for (const studentId of selectedStudents) {
+        await updateB40WalletAmount(studentId, pointsToAdd);
+      }
+
+      // Clear selected students and points
+      setSelectedStudents([]);
+      setPointsToAdd(0);
+
+      // Reset the "Select All" button to its initial state
+      setSelectAll(false);
+
+      // Refetch the student data to update the balances
+      fetchDataStudent();
+    } catch (error) {
+      console.error("Error adding points:", error);
+    }
+  };
+
+  const filteredStudents = student.filter(
+    (studentItem) =>
+      studentItem.user.profile.name.toLowerCase().includes(searchTerm) ||
+      studentItem.matricNo.toLowerCase().includes(searchTerm) ||
+      studentItem.icNo.toLowerCase().includes(searchTerm)
+  );
 
   return (
     <Layout>
@@ -60,13 +90,17 @@ export default function AddWallet() {
             className="w-full px-2 py-2 border border-gray-300 rounded-md"
             type="text"
             placeholder="Search for name, matric number or ic number"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Handle search term input
           />
         </form>
-        <div className="mt-6 font-medium">
-          <p>
-            Select All <input type="checkbox" />
-          </p>
-        </div>
+        <button
+          type="button"
+          className="py-2 mt-4 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
+          onClick={handleSelectAll}
+        >
+          {selectAll ? "Deselect All Student" : "Select All Student"}
+        </button>
         <div className="mt-4 p-4 pt-0 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
           <table className="w-full mx-auto text-center">
             <thead>
@@ -89,24 +123,34 @@ export default function AddWallet() {
               </tr>
             </thead>
             <tbody>
-              {users.map((data, i) => {
-                const { student_name, matric_no, ic_no, wallet_amount } = data;
-
-                return (
-                  <tr key={i}>
-                    <td className="pb-6 text-center">
-                      <input
-                        id="hs-table-search-checkbox-2"
-                        type="checkbox"
-                        className="text-blue-600 border-gray-200 rounded focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                      />
-                    </td>
-                    <td className="pl-[15px] pb-6 text-left">{student_name}</td>
-                    <td className="pb-6 text-left">{matric_no}</td>
-                    <td className="pb-6 text-left">{ic_no}</td>
-                    <td className="pb-6 text-center">{wallet_amount}</td>
-                  </tr>
-                );
+              {filteredStudents.map((studentItem, index) => {
+                if (studentItem.b40 === true) {
+                  return (
+                    <tr key={index} className="text-gray-500">
+                      <td className="pb-6 text-center">
+                        <input
+                          type="checkbox"
+                          checked={selectedStudents.includes(
+                            studentItem.matricNo
+                          )}
+                          onChange={() =>
+                            handleCheckboxChange(studentItem.matricNo)
+                          }
+                        />
+                      </td>
+                      <td className="pb-6 text-left">
+                        {studentItem.user.profile.name}
+                      </td>
+                      <td className="pb-6 text-left">{studentItem.matricNo}</td>
+                      <td className="pb-6 text-left">{studentItem.icNo}</td>
+                      <td className="pb-6 text-center">
+                        {studentItem.coupon.total}
+                      </td>
+                    </tr>
+                  );
+                } else {
+                  return null; // Or handle non-matching items differently if needed
+                }
               })}
             </tbody>
           </table>
@@ -116,14 +160,16 @@ export default function AddWallet() {
             <input
               className="w-full px-2 py-2 border border-gray-300 rounded-md"
               type="number"
+              value={pointsToAdd}
+              onChange={(e) => setPointsToAdd(e.target.value)}
             />
           </div>
           <button
-            type="submit"
-            onClick={() => navigate("/dashboard")}
+            type="button"
             className="py-2 px-5 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
+            onClick={handleAddPoints}
           >
-            Add Point
+            Update Point
           </button>
         </div>
       </div>

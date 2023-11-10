@@ -1,11 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
 import DD_ListTransactions from "../../components/DD_ListTransactions";
+import { getCafeTransactions } from "../../api/auth";
 
 export default function AllCafe() {
+  const [cafeTransactions, setCafeTransactions] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchDataCafeTrans();
+  }, []);
+
+  const fetchDataCafeTrans = async () => {
+    try {
+      const response = await getCafeTransactions();
+      setCafeTransactions(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const calculateTotalTransactions = (transactions) => {
+    return transactions.reduce((total) => total + 1, 0);
+  };
+
+  const calculateTotalAmount = (transactions) => {
+    return transactions.reduce(
+      (total, transaction) => total + parseInt(transaction.amount),
+      0
+    );
+  };
 
   const dropdownAllTransaction = [
     "All",
@@ -14,26 +40,6 @@ export default function AllCafe() {
     "Month",
     "Custom",
   ];
-  // Testing database
-  const [cafe] = useState({
-    transactions: [
-      {
-        cafe_name: "Restoran Abu Sakinah",
-        total_transaction: 10,
-        total_amount: 100,
-      },
-      {
-        cafe_name: "Kafe Sabri Yaakob",
-        total_transaction: 15,
-        total_amount: 150,
-      },
-      // Add more data as needed
-    ],
-    overall: {
-      sum_transaction: 25,
-      sum_amount: 250,
-    },
-  });
 
   return (
     <Layout>
@@ -85,27 +91,31 @@ export default function AllCafe() {
               </tr>
             </thead>
             <tbody>
-              {cafe?.transactions?.map((data, i) => {
-                return (
-                  <tr key={i} className="text-gray-500">
-                    <td className="pb-6 pr-4 text-center">{i + 1}.</td>
-                    <td className="pb-6 text-left">{data.cafe_name}</td>
-                    <td className="pb-6 text-center">
-                      {data.total_transaction}
-                    </td>
-                    <td className="pb-6 text-center">{data.total_amount}</td>
-                  </tr>
-                );
-              })}
+              {cafeTransactions.map((cafe, index) => (
+                <tr key={index} className="text-gray-500">
+                  <td className="pb-6 pr-4 text-center">{index + 1}</td>
+                  <td className="pb-6 text-left">{cafe.id}</td>
+                  <td className="pb-6 text-center">
+                    {calculateTotalTransactions(cafe.transaction)}
+                  </td>
+                  <td className="pb-6 text-center">
+                    {calculateTotalAmount(cafe.transaction)}
+                  </td>
+                </tr>
+              ))}
               <tr className="font-medium text-gray-500">
                 <td colSpan={2} className="py-6 text-right">
                   Total
                 </td>
                 <td className="py-6 text-center">
-                  {cafe?.overall?.sum_transaction}
+                  {calculateTotalTransactions(
+                    cafeTransactions.flatMap((cafe) => cafe.transaction)
+                  )}
                 </td>
                 <td className="py-6 text-center">
-                  {cafe?.overall?.sum_amount}
+                  {calculateTotalAmount(
+                    cafeTransactions.flatMap((cafe) => cafe.transaction)
+                  )}
                 </td>
               </tr>
               <tr>
