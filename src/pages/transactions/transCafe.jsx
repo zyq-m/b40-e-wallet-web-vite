@@ -1,32 +1,41 @@
+import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
+import { getCafeTransactions } from "../../api/auth";
 export default function Cafe() {
+  const [cafeTransactions, setCafeTransactions] = useState([]);
+  const [filteredCafe, setFilteredCafe] = useState([]);
   const navigate = useNavigate();
 
-  // Sample cafe owner data array
-  const cafeOwnerData = [
-    {
-      id: 1,
-      cafe_name: "Kafe Sabri",
-      // Add more properties as needed
-    },
-    {
-      id: 2,
-      cafe_name: "Restoran Sakinah",
-      // Add more properties as needed
-    },
-    {
-      id: 3,
-      cafe_name: "Satey Abu Bakar",
-      // Add more properties as needed
-    },
-    {
-      id: 2,
-      cafe_name: "Restoran Jiran Seblah",
-      // Add more properties as needed
-    },
-    // Add more cafe owner objects as needed
-  ];
+  const onCafeTransaction = (cafeId, transactions) => {
+    navigate(`/transactions/details/cafeDetails/${cafeId}`, {
+      state: { cafeId, transactions },
+    });
+  };
+
+  useEffect(() => {
+    fetchDataCafeTrans();
+  }, []);
+
+  const fetchDataCafeTrans = async () => {
+    try {
+      const response = await getCafeTransactions();
+      setCafeTransactions(response.data);
+      setFilteredCafe(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to handle search input and update filteredStudents state
+  const handleSearch = (event) => {
+    const searchQuery = event.target.value.toLowerCase();
+
+    const filtered = cafeTransactions.filter((cafe) =>
+      cafe.id.toLowerCase().includes(searchQuery)
+    );
+    setFilteredCafe(filtered);
+  };
 
   return (
     <Layout>
@@ -34,34 +43,39 @@ export default function Cafe() {
         <h1 className="mb-[30px] font-bold text-3xl">
           Transactions List (Cafe Owners)
         </h1>
+        <input
+          className="w-full px-2 py-2 border border-gray-300 rounded-md"
+          type="text"
+          onChange={handleSearch}
+          placeholder="Search by Cafe ID..."
+        />
         <div className="mt-4 p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
           <table className="w-full mx-auto text-center">
             <thead>
               <tr>
                 <td className="w-[4rem]"></td>
-                <td className="text-left pb-[37px] font-medium">Cafe</td>
+                <td className="text-left pb-[37px] font-medium">Cafe ID</td>
               </tr>
             </thead>
             <tbody>
-              {cafeOwnerData.map((data, i) => {
-                return (
-                  <tr key={i} className="text-gray-500">
-                    <td className="pb-6 pr-4 text-center">{i + 1}.</td>
-                    <td className="pb-6 text-left">{data.cafe_name}</td>
-                    <td className="pb-6">
-                      <button
-                        type="submit"
-                        onClick={() =>
-                          navigate("/transactions/details/cafeDetails")
-                        }
-                        className=" py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
-                      >
-                        Show Details
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filteredCafe.map((cafe, index) => (
+                <tr key={index} className="text-gray-500">
+                  <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                  <td className="pb-6 text-left">{cafe.id}</td>{" "}
+                  {/* Update to cafe.cafeId */}
+                  <td className="pb-6">
+                    <button
+                      type="submit"
+                      className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
+                      onClick={() =>
+                        onCafeTransaction(cafe.id, cafe.transaction)
+                      }
+                    >
+                      Show Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

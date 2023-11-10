@@ -1,34 +1,13 @@
 import Layout from "../../../../components/Layout";
+import { useLocation } from "react-router-dom";
 import DD_ListTransactions from "../../../../components/DD_ListTransactions";
 
 export default function CafeDetails() {
-  // Sample transaction data array
-  const transactions = [
-    {
-      id: 1,
-      student_name: "John Doe",
-      sender: "Sender A",
-      created_on: "2023-09-11",
-      created_at: "14:30:00",
-      amount: 50.0,
-      cafe_name: "Cafe A",
-    },
-    {
-      id: 2,
-      student_name: "Jane Smith",
-      sender: "Sender B",
-      created_on: "2023-09-10",
-      created_at: "09:45:00",
-      amount: 30.0,
-      cafe_name: "Cafe A",
-    },
-    // Add more transaction objects as needed
-  ];
+  const location = useLocation();
+  const { state } = location;
 
-  const total = transactions.reduce(
-    (acc, transaction) => acc + transaction.amount,
-    0
-  );
+  const transactions = state ? state.transactions : [];
+  const cafeId = state ? state.cafeId : [];
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -37,13 +16,25 @@ export default function CafeDetails() {
   };
 
   // Helper function to format time
-  const formatTime = (timeString) => {
-    const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
-    return new Date(`1970-01-01T${timeString}Z`).toLocaleTimeString(
-      undefined,
-      options
-    );
+  const formatTime = (createdAt) => {
+    const date = new Date(createdAt);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours to 12-hour format
+    const formattedHours = hours % 12 || 12;
+
+    const formattedTime = `${formattedHours
+      .toString()
+      .padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${amOrPm}`;
+    return formattedTime;
   };
+
+  const total = transactions.reduce(
+    (acc, transaction) => acc + parseFloat(transaction.amount),
+    0
+  );
 
   const dropdownAllTransaction = [
     "All",
@@ -57,6 +48,7 @@ export default function CafeDetails() {
     <Layout>
       <div className="items-center w-2/3 my-6">
         <h1 className="mb-6 text-3xl font-bold">(Details Cafe Transaction)</h1>
+        <p className="mb-[30px] mt-3">({cafeId})</p>
         <div className="flex items-center justify-between gap-3 mb-3">
           <div>
             <DD_ListTransactions options={dropdownAllTransaction} />
@@ -101,21 +93,23 @@ export default function CafeDetails() {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((data, i) => {
-                return (
-                  <tr className="text-gray-500" key={i}>
-                    <td className="pb-6 pr-4 text-center">{i + 1}.</td>
+              {transactions.length > 0 ? (
+                transactions.map((transaction, index) => (
+                  <tr className="text-gray-500" key={index}>
+                    <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                    <td className="pb-6 text-left">{transaction.matricNo}</td>
                     <td className="pb-6 text-left">
-                      {data.student_name} ({data.sender})
+                      {formatDate(transaction.createdAt)} -{" "}
+                      {formatTime(transaction.createdAt)}
                     </td>
-                    <td className="pb-6 text-left">
-                      {formatDate(data.created_on)} -{" "}
-                      {formatTime(data.created_at)}
-                    </td>
-                    <td className="pb-6 text-center">{data.amount}</td>
+                    <td className="pb-6 text-center">{transaction.amount}</td>
                   </tr>
-                );
-              })}
+                ))
+              ) : (
+                <td colSpan="4" className="pb-6 text-center">
+                  No Transactions Available
+                </td>
+              )}
               <tr>
                 <td className="pb-6 font-medium text-right" colSpan={3}>
                   Total

@@ -1,11 +1,15 @@
-import Layout from "../../../../components/Layout";
+// TransactionDetails.js
+// import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Layout from "../components/Layout";
 
-export default function StudentNB40Details() {
+function TestingTransactionDetails() {
   const location = useLocation();
   const { state } = location;
+
   const transactions = state ? state.transactions : [];
-  const matricNo = state ? state.matricNo : [];
+  //   const matricNo = state ? state.matricNo : [];
+  const cafeId = state ? state.cafeId : [];
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -31,7 +35,7 @@ export default function StudentNB40Details() {
 
   return (
     <Layout>
-      <div className="items-center w-2/3 my-6">
+      {/* <div className="items-center w-2/3 my-6">
         <h1 className="text-3xl font-bold">Student Transaction Details</h1>
         <p className="mb-[30px] mt-3">({matricNo})</p>
         <div className="p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
@@ -60,7 +64,44 @@ export default function StudentNB40Details() {
                   </tr>
                 ))
               ) : (
-                <td colSpan="4" className="pb-6 text-center">
+                <td colSpan="4" className="text-center">
+                  No Transactions Available
+                </td>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div> */}
+      <div className="items-center w-2/3 my-6">
+        <h1 className="text-3xl font-bold">Cafe Transaction Details</h1>
+        <p className="mb-[30px] mt-3">({cafeId})</p>
+        <div className="p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
+          <table className="w-full mx-auto text-center">
+            <thead>
+              <tr>
+                <td className="w-[4rem]"></td>
+                <td className="pb-[37px] font-medium text-left">Recepient</td>
+                <td className="pb-[37px] font-medium text-left">Date</td>
+                <td className="pb-[37px] font-medium text-center">
+                  Amount(RM)
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.length > 0 ? (
+                transactions.map((transaction, index) => (
+                  <tr className="text-gray-500" key={index}>
+                    <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                    <td className="pb-6 text-left">{transaction.matricNo}</td>
+                    <td className="pb-6 text-left">
+                      {formatDate(transaction.createdAt)} -{" "}
+                      {formatTime(transaction.createdAt)}
+                    </td>
+                    <td className="pb-6 text-center">{transaction.amount}</td>
+                  </tr>
+                ))
+              ) : (
+                <td colSpan="4" className="text-center">
                   No Transactions Available
                 </td>
               )}
@@ -71,3 +112,5 @@ export default function StudentNB40Details() {
     </Layout>
   );
 }
+
+export default TestingTransactionDetails;

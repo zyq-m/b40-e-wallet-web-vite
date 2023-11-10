@@ -17,6 +17,7 @@ import CafeDetails from "./pages/transactions/details/cafe/cafeDetails";
 import StudentB40Details from "./pages/transactions/details/student/studentB40Details";
 import StudentNB40Details from "./pages/transactions/details/student/studentNB40Details";
 import TestingGet from "./pages/testingGet";
+import TestingTransactionDetails from "./pages/testingTransactionDetails";
 import TestingPost from "./pages/testingPost";
 import TestingPut from "./pages/testingPut";
 import NoPage from "./pages/nopage";
@@ -46,20 +47,24 @@ export default function App() {
           />
           <Route path="/transactions/transCafe" element={<TransCafe />} />
           <Route
-            path="/transactions/details/cafeDetails"
+            path="/transactions/details/cafeDetails/:cafeID"
             element={<CafeDetails />}
           />
           <Route
-            path="/transactions/details/student/studentB40Details"
+            path="/transactions/details/student/:matricData"
             element={<StudentB40Details />}
           />
           <Route
-            path="/transactions/details/student/studentNB40Details"
+            path="/transactions/details/student/:matricData"
             element={<StudentNB40Details />}
           />
           <Route path="/testingGet" element={<TestingGet />} />
           <Route path="/testingPost" element={<TestingPost />} />
           <Route path="/testingPut" element={<TestingPut />} />
+          <Route
+            path="/testingGet/:matricData"
+            element={<TestingTransactionDetails />}
+          />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
