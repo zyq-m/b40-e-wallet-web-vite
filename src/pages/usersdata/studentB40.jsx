@@ -90,7 +90,7 @@ export default function StudentB40() {
                 <th className="text-left pb-[37px] font-medium">IC Number</th>
                 <th className="text-left pb-[37px] font-medium">User ID</th>
                 <th className="text-center pb-[37px] font-medium">
-                  Balance E-Kupon
+                  Balance E-Wallet(RM)
                 </th>
                 <th className="text-center pb-[37px] font-medium">
                   B40 Student
@@ -148,7 +148,7 @@ export default function StudentB40() {
                 <th className="text-left pb-[37px] font-medium">IC Number</th>
                 <th className="text-left pb-[37px] font-medium">User ID</th>
                 <th className="text-center pb-[37px] font-medium">
-                  Balance E-Kupon
+                  Balance E-Wallet(RM)
                 </th>
                 <th className="text-center pb-[37px] font-medium">
                   B40 Student

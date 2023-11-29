@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout";
 import { useLocation } from "react-router-dom";
 import DD_ListTransactions from "../../../../components/DD_ListTransactions";
@@ -5,9 +6,26 @@ import DD_ListTransactions from "../../../../components/DD_ListTransactions";
 export default function CafeDetails() {
   const location = useLocation();
   const { state } = location;
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const transactions = state ? state.transactions : [];
   const cafeId = state ? state.cafeId : [];
+
+  useState(() => {
+    setFilteredTransactions(transactions);
+  });
+
+  useEffect(() => {
+    // Calculate the total from transactions when the component mounts
+    const initialTotal = transactions.reduce(
+      (acc, transaction) => acc + parseFloat(transaction.amount),
+      0
+    );
+    setTotal(initialTotal);
+  }, [transactions]);
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -31,10 +49,30 @@ export default function CafeDetails() {
     return formattedTime;
   };
 
-  const total = transactions.reduce(
-    (acc, transaction) => acc + parseFloat(transaction.amount),
-    0
-  );
+  const handleFindTransactions = () => {
+    let updatedTransactions = [];
+
+    if (!fromDate && !toDate) {
+      updatedTransactions = transactions;
+    } else {
+      updatedTransactions = transactions.filter((transaction) => {
+        const transactionDate = new Date(transaction.createdAt);
+        return (
+          (!fromDate || transactionDate >= new Date(fromDate)) &&
+          (!toDate || transactionDate <= new Date(toDate))
+        );
+      });
+    }
+
+    setFilteredTransactions(updatedTransactions);
+
+    const updatedTotal = updatedTransactions.reduce(
+      (acc, transaction) => acc + parseFloat(transaction.amount),
+      0
+    );
+
+    setTotal(updatedTotal);
+  };
 
   const dropdownAllTransaction = [
     "All",
@@ -64,17 +102,26 @@ export default function CafeDetails() {
               <label htmlFor="from" className="mr-2">
                 From
               </label>
-              <input type="date" />
+              <input
+                type="date"
+                value={fromDate}
+                onChange={(e) => setFromDate(e.target.value)}
+              />
             </span>
             <span className="py-2 px-3 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
               <label htmlFor="to" className="mr-2">
                 To
               </label>
-              <input type="date" />
+              <input
+                type="date"
+                value={toDate}
+                onChange={(e) => setToDate(e.target.value)}
+              />
             </span>
             <button
-              type="submit"
+              type="button"
               className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
+              onClick={handleFindTransactions}
             >
               Find
             </button>
@@ -93,8 +140,8 @@ export default function CafeDetails() {
               </tr>
             </thead>
             <tbody>
-              {transactions.length > 0 ? (
-                transactions.map((transaction, index) => (
+              {filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction, index) => (
                   <tr className="text-gray-500" key={index}>
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
                     <td className="pb-6 text-left">{transaction.matricNo}</td>
