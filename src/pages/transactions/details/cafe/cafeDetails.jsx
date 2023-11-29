@@ -149,7 +149,9 @@ export default function CafeDetails() {
                       {formatDate(transaction.createdAt)} -{" "}
                       {formatTime(transaction.createdAt)}
                     </td>
-                    <td className="pb-6 text-center">{transaction.amount}</td>
+                    <td className="pb-6 text-center">
+                      {transaction.walletTransaction.amount}
+                    </td>
                   </tr>
                 ))
               ) : (
