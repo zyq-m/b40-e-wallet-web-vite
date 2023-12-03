@@ -19,34 +19,10 @@ export default function Dashboard() {
       //   coupon: 5,
       //   point: 10,
       // }
-      console.log(data);
       setStats(data);
+      console.log(data);
     });
-  }, [socket]);
-  useEffect(() => {
-    // Define an async function to fetch data
-    async function fetchData() {
-      try {
-        // Make a fetch request to the desired API endpoint
-        const response = await fetch("/admin/cafe");
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-
-        // Update the state with the received data
-        setStats(data);
-      } catch (error) {
-        console.error("Error fetching cafe data:", error);
-      }
-    }
-
-    // Call the fetchData function to initiate the data retrieval
-    fetchData();
-  }, []); // Empty dependency array means this effect will run once when the component mounts
+  }, []);
 
   return (
     <>

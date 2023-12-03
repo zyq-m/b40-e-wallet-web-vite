@@ -84,8 +84,8 @@ export const getStudentTransactions = async () => {
   return getData("/admin/student/transactions");
 };
 
-export const getCafeTransactions = async () => {
-  return getData("/admin/cafe/transactions");
+export const getCafeTransactions = async (cafeId) => {
+  return getData(`/admin/cafe/transactions/${cafeId}`);
 };
 
 export const getStudentPointsB40 = async () => {
