@@ -1,24 +1,11 @@
 import Layout from "../../../../components/Layout";
+import { useLocation } from "react-router-dom";
 
 export default function StudentB40Details() {
-  // Sample transaction data array
-  const transactions = [
-    {
-      id: 1,
-      cafe_name: "Cafe A",
-      created_on: "2023-09-11",
-      created_at: "14:30:00",
-      amount: 50.0,
-    },
-    {
-      id: 2,
-      cafe_name: "Cafe B",
-      created_on: "2023-09-10",
-      created_at: "09:45:00",
-      amount: 30.0,
-    },
-    // Add more transaction objects as needed
-  ];
+  const location = useLocation();
+  const { state } = location;
+  const transactions = state ? state.transactions : [];
+  const matricNo = state ? state.matricNo : [];
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -27,19 +14,26 @@ export default function StudentB40Details() {
   };
 
   // Helper function to format time
-  const formatTime = (timeString) => {
-    const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
-    return new Date(`1970-01-01T${timeString}Z`).toLocaleTimeString(
-      undefined,
-      options
-    );
+  const formatTime = (createdAt) => {
+    const date = new Date(createdAt);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours to 12-hour format
+    const formattedHours = hours % 12 || 12;
+
+    const formattedTime = `${formattedHours
+      .toString()
+      .padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${amOrPm}`;
+    return formattedTime;
   };
 
   return (
     <Layout>
       <div className="items-center w-2/3 my-6">
         <h1 className="text-3xl font-bold">Student Transaction Details</h1>
-        <p className="mb-[30px] mt-3">(Name Student B40 and Matric)</p>
+        <p className="mb-[30px] mt-3">({matricNo})</p>
         <div className="p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
           <table className="w-full mx-auto text-center">
             <thead>
@@ -53,19 +47,23 @@ export default function StudentB40Details() {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((data, i) => {
-                return (
-                  <tr className="text-gray-500" key={i}>
-                    <td className="pb-6 pr-4 text-center">{i + 1}.</td>
-                    <td className="pb-6 text-left">{data.cafe_name}</td>
+              {transactions.length > 0 ? (
+                transactions.map((transaction, index) => (
+                  <tr className="text-gray-500" key={index}>
+                    <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                    <td className="pb-6 text-left">{transaction.cafeId}</td>
                     <td className="pb-6 text-left">
-                      {formatDate(data.created_on)} -{" "}
-                      {formatTime(data.created_at)}
+                      {formatDate(transaction.createdAt)} -{" "}
+                      {formatTime(transaction.createdAt)}
                     </td>
-                    <td className="pb-6 text-center">{data.amount}</td>
+                    <td className="pb-6 text-center">{transaction.amount}</td>
                   </tr>
-                );
-              })}
+                ))
+              ) : (
+                <td colSpan="4" className="pb-6 text-center">
+                  No Transactions Available
+                </td>
+              )}
             </tbody>
           </table>
         </div>

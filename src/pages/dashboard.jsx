@@ -12,7 +12,15 @@ export default function Dashboard() {
 
   useEffect(() => {
     socket.on("admin:get-overall", (data) => {
+      // data response
+      // {
+      //   student: 4,
+      //   cafe: 5,
+      //   coupon: 5,
+      //   point: 10,
+      // }
       setStats(data);
+      console.log(data);
     });
   }, []);
 
