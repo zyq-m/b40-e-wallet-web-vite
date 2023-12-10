@@ -62,14 +62,8 @@ export const getSummary = async () => {
 };
 
 const getData = async (endpoint, params = {}) => {
-  try {
-    const response = await api.get(endpoint, { params });
-    return response.data;
-  } catch (error) {
-    // Handle the error here if needed
-    console.error(`Error fetching data from ${endpoint}:`, error);
-    throw error;
-  }
+  const response = await api.get(endpoint, { params });
+  return response.data;
 };
 
 export const getStudentData = async () => {
@@ -80,8 +74,8 @@ export const getCafeData = async () => {
   return getData("/admin/cafe");
 };
 
-export const getStudentTransactions = async () => {
-  return getData("/admin/student/transactions");
+export const getStudentTransactions = async (matricNo) => {
+  return getData(`/admin/student/transactions/${matricNo}`);
 };
 
 export const getCafeTransactions = async (cafeId) => {
