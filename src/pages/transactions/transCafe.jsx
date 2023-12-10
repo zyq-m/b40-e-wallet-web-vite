@@ -9,10 +9,8 @@ export default function Cafe() {
 
   const onCafeTransaction = async (cafeId) => {
     try {
-      const response = await getCafeData(cafeId); // Fetch cafe transactions by ID from the API
-      const transactions = response.data;
       navigate(`/transactions/details/cafeDetails/${cafeId}`, {
-        state: { cafeId, transactions },
+        state: { cafeId },
       });
     } catch (error) {
       console.error(error);
@@ -74,7 +72,7 @@ export default function Cafe() {
                       type="submit"
                       className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
                       onClick={() =>
-                        onCafeTransaction(cafe.id, cafe.transaction)
+                        onCafeTransaction(cafe.id)
                       }
                     >
                       Show Details

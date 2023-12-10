@@ -3,6 +3,6 @@ import { io } from "socket.io-client";
 
 export const socket = io(import.meta.env.VITE_API, {
   auth: {
-    token: localStorage.getItem("access-token"),
+    token: 0,
   },
 });
