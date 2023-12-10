@@ -156,7 +156,7 @@ export default function CafeDetails() {
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions.length > 0 ? (
+              {filteredTransactions?.length > 0 ? (
                 filteredTransactions.map((transaction, index) => (
                   <tr className="text-gray-500" key={index}>
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
@@ -170,7 +170,7 @@ export default function CafeDetails() {
                         )} - ${formatTime(transaction.transaction.createdOn)}`}
                     </td>
                     <td className="pb-6 text-center">
-                      {transaction.walletTransaction.amount}
+                      {transaction.amount}
                     </td>
                   </tr>
                 ))

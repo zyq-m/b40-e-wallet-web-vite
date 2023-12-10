@@ -61,6 +61,10 @@ export const getSummary = async () => {
   }
 };
 
+export const getReport = async () => {
+  return api.get("/admin/report/transaction");
+};
+
 const getData = async (endpoint, params = {}) => {
   try {
     const response = await api.get(endpoint, { params });
