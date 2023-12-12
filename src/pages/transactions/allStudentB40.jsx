@@ -10,9 +10,22 @@ export default function AllStudentB40() {
   const [filteredStudents, setFilteredStudents] = useState([]);
 
   const onTransaction = (matricNo) => {
-    navigate(`/transactions/details/student/${matricNo}`, {
-      state: { matricNo },
-    });
+    try {
+      navigate(`/transactions/details/studentB40/${matricNo}`, {
+        state: { matricNo },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const onPoints = (matricNo) => {
+    try {
+      navigate(`/transactions/points/studentB40/${matricNo}`, {
+        state: { matricNo },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -73,18 +86,27 @@ export default function AllStudentB40() {
                       <td className="pb-6">
                         <button
                           type="submit"
-                          className=" py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
+                          className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm mr-2" // Added mr-2 for margin-right
                           onClick={() =>
                             onTransaction(student.matricNo, student.transaction)
                           }
                         >
-                          Show Details
+                          Show Details (eKupon)
+                        </button>
+                        <button
+                          type="submit"
+                          className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm ml-2" // Added ml-2 for margin-left
+                          onClick={() =>
+                            onPoints(student.matricNo, student.transaction)
+                          }
+                        >
+                          Show Details (Points)
                         </button>
                       </td>
                     </tr>
                   );
                 } else {
-                  return null; // Or handle non-matching items differently if needed
+                  return null;
                 }
               })}
             </tbody>

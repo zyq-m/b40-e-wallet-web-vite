@@ -2,17 +2,21 @@ import { useState, useEffect } from "react";
 
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
-import { getStudentTransactions } from "../../api/auth";
+import { getStudentData } from "../../api/auth";
 
 export default function AllStudentNB40() {
   const navigate = useNavigate();
   const [studentTransactions, setStudentTransactions] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
 
-  const onTransaction = (matricNo, transactions) => {
-    navigate(`/transactions/details/student/${matricNo}`, {
-      state: { matricNo, transactions },
-    });
+  const onTransaction = (matricNo) => {
+    try {
+      navigate(`/transactions/details/studentNB40/${matricNo}`, {
+        state: { matricNo },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -21,7 +25,7 @@ export default function AllStudentNB40() {
 
   const fetchDataStudentTrans = async () => {
     try {
-      const response = await getStudentTransactions();
+      const response = await getStudentData();
       setStudentTransactions(response.data);
       setFilteredStudents(response.data);
     } catch (error) {
@@ -63,25 +67,31 @@ export default function AllStudentNB40() {
               </tr>
             </thead>
             <tbody>
-              {filteredStudents.map((student, index) => (
-                <tr key={index} className="text-gray-500">
-                  <td className="pb-6 pr-4 text-center">{index + 1}.</td>
-                  <td className="pb-6 text-left">
-                    {student.icNo} ({student.matricNo})
-                  </td>
-                  <td className="pb-6">
-                    <button
-                      type="submit"
-                      className=" py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
-                      onClick={() =>
-                        onTransaction(student.matricNo, student.transaction)
-                      }
-                    >
-                      Show Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {filteredStudents.map((student, index) => {
+                if (student.b40 === false) {
+                  return (
+                    <tr key={index} className="text-gray-500">
+                      <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                      <td className="pb-6 text-left">
+                        {student.icNo} ({student.matricNo})
+                      </td>
+                      <td className="pb-6">
+                        <button
+                          type="submit"
+                          className=" py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
+                          onClick={() =>
+                            onTransaction(student.matricNo, student.transaction)
+                          }
+                        >
+                          Show Details
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                } else {
+                  return null;
+                }
+              })}
             </tbody>
           </table>
         </div>

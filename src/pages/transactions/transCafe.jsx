@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
+
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { getCafeData } from "../../api/auth";
+
 export default function Cafe() {
+  const navigate = useNavigate();
   const [cafeTransactions, setCafeTransactions] = useState([]);
   const [filteredCafe, setFilteredCafe] = useState([]);
-  const navigate = useNavigate();
 
   const onCafeTransaction = async (cafeId) => {
-    navigate(`/transactions/details/cafeDetails/${cafeId}`, {
-      state: { cafeId },
-    });
+    try {
+      navigate(`/transactions/details/cafeDetails/${cafeId}`, {
+        state: { cafeId },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -69,7 +75,9 @@ export default function Cafe() {
                     <button
                       type="submit"
                       className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
-                      onClick={() => onCafeTransaction(cafe.id)}
+                      onClick={() =>
+                        onCafeTransaction(cafe.id, cafe.transaction)
+                      }
                     >
                       Show Details
                     </button>

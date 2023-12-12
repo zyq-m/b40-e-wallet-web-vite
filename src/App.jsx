@@ -14,8 +14,9 @@ import AllStudentB40 from "./pages/transactions/allStudentB40";
 import AllStudentNB40 from "./pages/transactions/allStudentNB40";
 import TransCafe from "./pages/transactions/transCafe";
 import CafeDetails from "./pages/transactions/details/cafe/cafeDetails";
-import StudentB40Details from "./pages/transactions/details/student/studentB40Details";
-import StudentNB40Details from "./pages/transactions/details/student/studentNB40Details";
+import StudentB40Details from "./pages/transactions/details/studentB40/studentB40Details";
+import StudentNB40Details from "./pages/transactions/details/studentNB40/studentNB40Details";
+import StudentB40DetailsPoints from "./pages/transactions/points/studentB40/studentB40DetailsPoints";
 import TestingGet from "./pages/testingGet";
 import TestingTransactionDetails from "./pages/testingTransactionDetails";
 import TestingPost from "./pages/testingPost";
@@ -51,12 +52,16 @@ export default function App() {
             element={<CafeDetails />}
           />
           <Route
-            path="/transactions/details/student/:matricData"
+            path="/transactions/details/studentB40/:matricData"
             element={<StudentB40Details />}
           />
           <Route
-            path="/transactions/details/student/:matricData"
+            path="/transactions/details/studentNB40/:matricData"
             element={<StudentNB40Details />}
+          />
+          <Route
+            path="/transactions/points/studentB40/:matricData"
+            element={<StudentB40DetailsPoints />}
           />
           <Route path="/testingGet" element={<TestingGet />} />
           <Route path="/testingPost" element={<TestingPost />} />

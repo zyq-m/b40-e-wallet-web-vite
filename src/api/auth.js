@@ -61,6 +61,10 @@ export const getSummary = async () => {
   }
 };
 
+export const getReport = async () => {
+  return api.get("/admin/report/transaction");
+};
+
 const getData = async (endpoint, params = {}) => {
   const response = await api.get(endpoint, { params });
   return response.data;
@@ -76,6 +80,10 @@ export const getCafeData = async () => {
 
 export const getStudentTransactions = async (matricNo) => {
   return getData(`/admin/student/transactions/${matricNo}`);
+};
+
+export const getStudentPointTransactions = async (matricNo) => {
+  return getData(`/admin/student/points/${matricNo}`);
 };
 
 export const getCafeTransactions = async (cafeId) => {

@@ -1,11 +1,32 @@
+import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout";
 import { useLocation } from "react-router-dom";
+import { getStudentPointTransactions } from "../../../../api/auth";
 
-export default function StudentB40Details() {
+export default function StudentNB40Details() {
   const location = useLocation();
   const { state } = location;
-  const transactions = state ? state.transactions : [];
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+
   const matricNo = state ? state.matricNo : [];
+
+  useEffect(() => {
+    const fetchStudentTransactions = async () => {
+      if (matricNo) {
+        try {
+          const response = await getStudentPointTransactions(matricNo);
+          const studentTransactions = response?.data;
+
+          setFilteredTransactions(studentTransactions);
+        } catch (error) {
+          console.error("Error fetching student points:", error);
+        }
+      }
+    };
+
+    fetchStudentTransactions();
+  }, [matricNo]);
+  console.log("studentNB40Details");
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -42,13 +63,13 @@ export default function StudentB40Details() {
                 <td className="pb-[37px] font-medium text-left">Recepient</td>
                 <td className="pb-[37px] font-medium text-left">Date</td>
                 <td className="pb-[37px] font-medium text-center">
-                  Amount(RM)
+                  Amount(Points)
                 </td>
               </tr>
             </thead>
             <tbody>
-              {transactions.length > 0 ? (
-                transactions.map((transaction, index) => (
+              {filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction, index) => (
                   <tr className="text-gray-500" key={index}>
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
                     <td className="pb-6 text-left">{transaction.cafeId}</td>

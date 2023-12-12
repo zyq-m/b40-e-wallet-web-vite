@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
 import DD_ListTransactions from "../../components/DD_ListTransactions";
-import { getCafeTransactions } from "../../api/auth";
+import { getReport } from "../../api/auth";
 
 export default function AllCafe() {
   const [cafeTransactions, setCafeTransactions] = useState([]);
@@ -15,20 +15,23 @@ export default function AllCafe() {
 
   const fetchDataCafeTrans = async () => {
     try {
-      const response = await getCafeTransactions();
-      setCafeTransactions(response.data);
+      const response = await getReport();
+      setCafeTransactions(response.data.transaction);
     } catch (error) {
       console.error(error);
     }
   };
 
   const calculateTotalTransactions = (transactions) => {
-    return transactions.reduce((total) => total + 1, 0);
+    return transactions.reduce(
+      (total, cafe) => total + cafe.totalTransaction,
+      0
+    );
   };
 
   const calculateTotalAmount = (transactions) => {
     return transactions.reduce(
-      (total, transaction) => total + parseInt(transaction.amount),
+      (total, cafe) => total + parseFloat(cafe.totalAmount),
       0
     );
   };
@@ -92,15 +95,11 @@ export default function AllCafe() {
             </thead>
             <tbody>
               {cafeTransactions.map((cafe, index) => (
-                <tr key={index} className="text-gray-500">
+                <tr key={cafe.id} className="text-gray-500">
                   <td className="pb-6 pr-4 text-center">{index + 1}</td>
-                  <td className="pb-6 text-left">{cafe.id}</td>
-                  <td className="pb-6 text-center">
-                    {calculateTotalTransactions(cafe.transaction)}
-                  </td>
-                  <td className="pb-6 text-center">
-                    {calculateTotalAmount(cafe.transaction)}
-                  </td>
+                  <td className="pb-6 text-left">{cafe.cafeName}</td>
+                  <td className="pb-6 text-center">{cafe.totalTransaction}</td>
+                  <td className="pb-6 text-center">{cafe.totalAmount}</td>
                 </tr>
               ))}
               <tr className="font-medium text-gray-500">
@@ -108,14 +107,10 @@ export default function AllCafe() {
                   Total
                 </td>
                 <td className="py-6 text-center">
-                  {calculateTotalTransactions(
-                    cafeTransactions.flatMap((cafe) => cafe.transaction)
-                  )}
+                  {calculateTotalTransactions(cafeTransactions)}
                 </td>
                 <td className="py-6 text-center">
-                  {calculateTotalAmount(
-                    cafeTransactions.flatMap((cafe) => cafe.transaction)
-                  )}
+                  {calculateTotalAmount(cafeTransactions)}
                 </td>
               </tr>
               <tr>
