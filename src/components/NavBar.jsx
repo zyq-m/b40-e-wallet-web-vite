@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import DD_Registrations from "./DD_Registrations";
 import DD_UsersData from "./DD_UsersData";
 import DD_Transactions from "./DD_Transactions";
-import DD_Testing from "./DD_Testing";
 import { logout } from "../api/auth";
 
 const NavBar = () => {
@@ -17,13 +16,12 @@ const NavBar = () => {
     "Student B40",
     "Student Non-B40",
   ];
-  const dropdownOptions4 = ["Testing Get", "Testing Post", "Testing Put"];
 
   const onLogout = async () => {
     try {
       await logout();
       localStorage.clear();
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
@@ -55,8 +53,6 @@ const NavBar = () => {
         </button>
 
         <DD_Transactions options={dropdownOptions3} />
-
-        <DD_Testing options={dropdownOptions4} />
       </div>
 
       <div>
