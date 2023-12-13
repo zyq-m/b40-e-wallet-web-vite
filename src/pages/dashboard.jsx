@@ -6,7 +6,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState({
     student: 0,
     cafe: 0,
-    transaction: 0,
+    coupon: 0,
     point: 0,
   });
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
     socket.on("admin:get-overall", (data) => {
       setStats(data);
     });
-  }, [socket]);
+  }, []);
 
   return (
     <>
