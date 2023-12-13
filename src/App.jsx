@@ -40,6 +40,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route index element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
