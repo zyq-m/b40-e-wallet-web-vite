@@ -1,7 +1,9 @@
 export default function NoPage() {
   return (
-    <>
-      <h1 className="text-4xl font-bold">Error 404: Not found</h1>
-    </>
+    <div className="h-screen grid place-items-center">
+      <h1 className="text-center text-4xl font-bold">
+        Error <span className="text-red-500">404</span>: Page Not found
+      </h1>
+    </div>
   );
 }
