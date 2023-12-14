@@ -55,16 +55,23 @@ export default function AllCafe() {
     fetchDataByDate();
   };
 
-  // Function to fetch PDF report based on selected dates
+  // Inside fetchPDFReport function after fetching HTML content
   const fetchPDFReport = async () => {
     try {
       if (fromDate && toDate) {
-        // Fetch the HTML content using the getReportPDF function
         const htmlResponse = await getReportPDF(fromDate, toDate);
 
-        // Open a new window and display the HTML content
         const printWindow = window.open("", "_blank");
         printWindow.document.write(htmlResponse);
+
+        // Define genPDF within the context of the printWindow
+        printWindow.genPDF = function () {
+          const doc = new printWindow.jspdf.jsPDF({ orientation: "l" });
+
+          // Your existing PDF generation logic here...
+
+          doc.save("table.pdf");
+        };
       } else {
         console.error(
           "Please select both From and To dates for the PDF report."
