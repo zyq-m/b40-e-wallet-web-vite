@@ -53,7 +53,7 @@ export default function StudentB40DetailsPoints() {
   return (
     <Layout>
       <div className="items-center w-2/3 my-6">
-        <h1 className="text-3xl font-bold">Student Transaction Details</h1>
+        <h1 className="text-3xl font-bold">Student Point Claims</h1>
         <p className="mb-[30px] mt-3">({matricNo})</p>
         <div className="p-8 border-[1px] rounded-md bg-[#FFFFFF] border-gray-300">
           <table className="w-full mx-auto text-center">

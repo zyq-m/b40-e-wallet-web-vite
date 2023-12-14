@@ -98,6 +98,14 @@ export const getStudentPointsNB40 = async () => {
   return getData("/admin/student/points", { params: { b40: false } });
 };
 
+export const getReportTransaction = async (fromDate, toDate) => {
+  return getData(`/admin/report/transaction/${fromDate}/${toDate}`);
+};
+
+export const getReportPDF = async (fromDate, toDate) => {
+  return getData(`/admin/report/transaction/pdf/${fromDate}/${toDate}`);
+};
+
 export const registerStudent = async (
   matricNo,
   icNo,

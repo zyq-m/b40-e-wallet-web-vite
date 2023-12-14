@@ -72,12 +72,16 @@ export default function StudentNB40Details() {
                 filteredTransactions.map((transaction, index) => (
                   <tr className="text-gray-500" key={index}>
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
-                    <td className="pb-6 text-left">{transaction.cafeId}</td>
                     <td className="pb-6 text-left">
-                      {formatDate(transaction.createdAt)} -{" "}
-                      {formatTime(transaction.createdAt)}
+                      {transaction.transaction.cafe.name}
                     </td>
-                    <td className="pb-6 text-center">{transaction.amount}</td>
+                    <td className="pb-6 text-left">
+                      {formatDate(transaction.transaction.createdAt)} -{" "}
+                      {formatTime(transaction.transaction.createdOn)}
+                    </td>
+                    <td className="pb-6 text-center">
+                      {transaction.transaction.pointTransaction.point.value}
+                    </td>
                   </tr>
                 ))
               ) : (
