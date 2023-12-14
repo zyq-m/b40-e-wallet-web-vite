@@ -1,25 +1,33 @@
 import { useState, useEffect } from "react";
+
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
-import { getCafeTransactions } from "../../api/auth";
+import { getCafeData } from "../../api/auth";
+
 export default function Cafe() {
+  const navigate = useNavigate();
   const [cafeTransactions, setCafeTransactions] = useState([]);
   const [filteredCafe, setFilteredCafe] = useState([]);
-  const navigate = useNavigate();
 
-  const onCafeTransaction = (cafeId, transactions) => {
-    navigate(`/transactions/details/cafeDetails/${cafeId}`, {
-      state: { cafeId, transactions },
-    });
+  const onCafeTransaction = async (cafeId) => {
+    try {
+      navigate(`/transactions/details/cafeDetails/${cafeId}`, {
+        state: { cafeId },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     fetchDataCafeTrans();
   }, []);
 
+  console.log("transCafe");
+
   const fetchDataCafeTrans = async () => {
     try {
-      const response = await getCafeTransactions();
+      const response = await getCafeData();
       setCafeTransactions(response.data);
       setFilteredCafe(response.data);
     } catch (error) {

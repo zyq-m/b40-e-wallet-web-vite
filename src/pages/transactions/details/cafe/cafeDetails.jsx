@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout";
 import { useLocation } from "react-router-dom";
 import DD_ListTransactions from "../../../../components/DD_ListTransactions";
+import { getCafeTransactions } from "../../../../api/auth";
 
 export default function CafeDetails() {
   const location = useLocation();
@@ -19,13 +20,30 @@ export default function CafeDetails() {
   });
 
   useEffect(() => {
-    // Calculate the total from transactions when the component mounts
-    const initialTotal = transactions.reduce(
-      (acc, transaction) => acc + parseFloat(transaction.amount),
-      0
-    );
-    setTotal(initialTotal);
-  }, [transactions]);
+    const fetchCafeTransactions = async () => {
+      if (cafeId) {
+        try {
+          const response = await getCafeTransactions(cafeId); // Fetch cafe transactions by ID from the API
+          const cafeTransactions = response?.data;
+
+          setFilteredTransactions(cafeTransactions);
+
+          const updatedTotal = cafeTransactions.reduce(
+            (acc, transaction) => acc + parseFloat(transaction.amount),
+            0
+          );
+
+          setTotal(updatedTotal);
+        } catch (error) {
+          console.error("Error fetching cafe transactions:", error);
+        }
+      }
+    };
+
+    fetchCafeTransactions();
+  }, [cafeId]);
+
+  console.log("cafeDetails");
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -140,23 +158,30 @@ export default function CafeDetails() {
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions.length > 0 ? (
+              {filteredTransactions?.length > 0 ? (
                 filteredTransactions.map((transaction, index) => (
                   <tr className="text-gray-500" key={index}>
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
-                    <td className="pb-6 text-left">{transaction.matricNo}</td>
                     <td className="pb-6 text-left">
-                      {formatDate(transaction.createdAt)} -{" "}
-                      {formatTime(transaction.createdAt)}
+                      {transaction.transaction?.matricNo}
+                    </td>
+                    <td className="pb-6 text-left">
+                      {transaction?.transaction?.createdAt &&
+                        `${formatDate(
+                          transaction.transaction.createdAt
+                        )} - ${formatTime(transaction.transaction.createdOn)}`}
                     </td>
                     <td className="pb-6 text-center">{transaction.amount}</td>
                   </tr>
                 ))
               ) : (
-                <td colSpan="4" className="pb-6 text-center">
-                  No Transactions Available
-                </td>
+                <tr>
+                  <td colSpan="4" className="pb-6 text-center">
+                    No Transactions Available
+                  </td>
+                </tr>
               )}
+
               <tr>
                 <td className="pb-6 font-medium text-right" colSpan={3}>
                   Total

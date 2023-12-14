@@ -61,15 +61,13 @@ export const getSummary = async () => {
   }
 };
 
+export const getReport = async () => {
+  return api.get("/admin/report/transaction");
+};
+
 const getData = async (endpoint, params = {}) => {
-  try {
-    const response = await api.get(endpoint, { params });
-    return response.data;
-  } catch (error) {
-    // Handle the error here if needed
-    console.error(`Error fetching data from ${endpoint}:`, error);
-    throw error;
-  }
+  const response = await api.get(endpoint, { params });
+  return response.data;
 };
 
 export const getStudentData = async () => {
@@ -80,12 +78,16 @@ export const getCafeData = async () => {
   return getData("/admin/cafe");
 };
 
-export const getStudentTransactions = async () => {
-  return getData("/admin/student/transactions");
+export const getStudentTransactions = async (matricNo) => {
+  return getData(`/admin/student/transactions/${matricNo}`);
 };
 
-export const getCafeTransactions = async () => {
-  return getData("/admin/cafe/transactions");
+export const getStudentPointTransactions = async (matricNo) => {
+  return getData(`/admin/student/points/${matricNo}`);
+};
+
+export const getCafeTransactions = async (cafeId) => {
+  return getData(`/admin/cafe/transactions/${cafeId}`);
 };
 
 export const getStudentPointsB40 = async () => {
@@ -94,6 +96,14 @@ export const getStudentPointsB40 = async () => {
 
 export const getStudentPointsNB40 = async () => {
   return getData("/admin/student/points", { params: { b40: false } });
+};
+
+export const getReportTransaction = async (fromDate, toDate) => {
+  return getData(`/admin/report/transaction/${fromDate}/${toDate}`);
+};
+
+export const getReportPDF = async (fromDate, toDate) => {
+  return getData(`/admin/report/transaction/pdf/${fromDate}/${toDate}`);
 };
 
 export const registerStudent = async (

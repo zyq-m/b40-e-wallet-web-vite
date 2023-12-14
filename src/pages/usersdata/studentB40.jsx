@@ -88,7 +88,7 @@ export default function StudentB40() {
                   Matric Number
                 </th>
                 <th className="text-left pb-[37px] font-medium">IC Number</th>
-                <th className="text-left pb-[37px] font-medium">User ID</th>
+                <th className="text-left pb-[37px] font-medium">Name</th>
                 <th className="text-center pb-[37px] font-medium">
                   Balance E-Wallet(RM)
                 </th>
@@ -111,7 +111,9 @@ export default function StudentB40() {
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
                     <td className="pb-6 text-left">{studentItem.matricNo}</td>
                     <td className="pb-6 text-left">{studentItem.icNo}</td>
-                    <td className="pb-6 text-center">{studentItem.userId}</td>
+                    <td className="pb-6 text-left">
+                      {studentItem.user.profile.name}
+                    </td>
                     <td className="pb-6 text-center">
                       {studentItem.coupon.total}
                     </td>
@@ -146,7 +148,7 @@ export default function StudentB40() {
                   Matric Number
                 </th>
                 <th className="text-left pb-[37px] font-medium">IC Number</th>
-                <th className="text-left pb-[37px] font-medium">User ID</th>
+                <th className="text-left pb-[37px] font-medium">Name</th>
                 <th className="text-center pb-[37px] font-medium">
                   Balance E-Wallet(RM)
                 </th>
@@ -169,7 +171,9 @@ export default function StudentB40() {
                     <td className="pb-6 pr-4 text-center">{index + 1}.</td>
                     <td className="pb-6 text-left">{studentItem.matricNo}</td>
                     <td className="pb-6 text-left">{studentItem.icNo}</td>
-                    <td className="pb-6 text-center">{studentItem.userId}</td>
+                    <td className="pb-6 text-left">
+                      {studentItem.user.profile.name}
+                    </td>
                     <td className="pb-6 text-center">
                       {studentItem.coupon.total}
                     </td>

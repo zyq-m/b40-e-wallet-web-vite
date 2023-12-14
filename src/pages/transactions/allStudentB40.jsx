@@ -2,17 +2,30 @@ import { useState, useEffect } from "react";
 
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
-import { getStudentTransactions } from "../../api/auth";
+import { getStudentData } from "../../api/auth";
 
 export default function AllStudentB40() {
   const navigate = useNavigate();
   const [studentTransactions, setStudentTransactions] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
 
-  const onTransaction = (matricNo, transactions) => {
-    navigate(`/transactions/details/student/${matricNo}`, {
-      state: { matricNo, transactions },
-    });
+  const onTransaction = (matricNo) => {
+    try {
+      navigate(`/transactions/details/studentB40/${matricNo}`, {
+        state: { matricNo },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const onPoints = (matricNo) => {
+    try {
+      navigate(`/transactions/points/studentB40/${matricNo}`, {
+        state: { matricNo },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -21,7 +34,7 @@ export default function AllStudentB40() {
 
   const fetchDataStudentTrans = async () => {
     try {
-      const response = await getStudentTransactions();
+      const response = await getStudentData();
       setStudentTransactions(response.data);
       setFilteredStudents(response.data);
     } catch (error) {
@@ -62,25 +75,40 @@ export default function AllStudentB40() {
               </tr>
             </thead>
             <tbody>
-              {filteredStudents.map((student, index) => (
-                <tr key={index} className="text-gray-500">
-                  <td className="pb-6 pr-4 text-center">{index + 1}.</td>
-                  <td className="pb-6 text-left">
-                    {student.icNo} ({student.matricNo})
-                  </td>
-                  <td className="pb-6">
-                    <button
-                      type="submit"
-                      className=" py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm"
-                      onClick={() =>
-                        onTransaction(student.matricNo, student.transaction)
-                      }
-                    >
-                      Show Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {filteredStudents.map((student, index) => {
+                if (student.b40 === true) {
+                  return (
+                    <tr key={index} className="text-gray-500">
+                      <td className="pb-6 pr-4 text-center">{index + 1}.</td>
+                      <td className="pb-6 text-left">
+                        {student.icNo} ({student.matricNo})
+                      </td>
+                      <td className="pb-6">
+                        <button
+                          type="submit"
+                          className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm mr-2" // Added mr-2 for margin-right
+                          onClick={() =>
+                            onTransaction(student.matricNo, student.transaction)
+                          }
+                        >
+                          Show Details (eKupon)
+                        </button>
+                        <button
+                          type="submit"
+                          className="py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#C5c5c5] text-black hover:bg-[#Aaaaaa] focus:outline-none focus:ring-2 focus:ring-[#C5c5c5] focus:ring-offset-2 transition-all text-sm ml-2" // Added ml-2 for margin-left
+                          onClick={() =>
+                            onPoints(student.matricNo, student.transaction)
+                          }
+                        >
+                          Show Details (Points)
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                } else {
+                  return null;
+                }
+              })}
             </tbody>
           </table>
         </div>
