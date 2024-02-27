@@ -53,6 +53,14 @@ const NavBar = () => {
         </button>
 
         <DD_Transactions options={dropdownOptions3} />
+
+        <button
+          type="button"
+          onClick={() => navigate("/spendLimit")}
+          className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
+        >
+          Spend Limit
+        </button>
       </div>
 
       <div>

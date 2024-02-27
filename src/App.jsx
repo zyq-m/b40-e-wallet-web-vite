@@ -25,6 +25,7 @@ import StudentNB40Details from "./pages/transactions/details/studentNB40/student
 import StudentB40DetailsPoints from "./pages/transactions/points/studentB40/studentB40DetailsPoints";
 import TestingTransactionDetails from "./pages/testingTransactionDetails";
 import NoPage from "./pages/nopage";
+import SpendLimit from "./pages/spendLimit";
 
 const ProtectedRoute = () => {
   let token = localStorage.getItem("access-token");
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/spendLimit" element={<SpendLimit />} />
             <Route path="/addCafe" element={<AddCafe />} />
             <Route path="/addStudent" element={<AddStudent />} />
             <Route path="/usersdata/cafe" element={<Cafe />} />
