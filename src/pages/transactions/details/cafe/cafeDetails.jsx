@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout";
 import { useLocation } from "react-router-dom";
 import DD_ListTransactions from "../../../../components/DD_ListTransactions";
-import { getCafeTransactions } from "../../../../api/auth";
+import {
+  getCafeTransactions,
+  getCafeTransactionsByDate,
+} from "../../../../api/auth";
 
 export default function CafeDetails() {
   const location = useLocation();
@@ -27,13 +30,7 @@ export default function CafeDetails() {
           const cafeTransactions = response?.data;
 
           setFilteredTransactions(cafeTransactions);
-
-          const updatedTotal = cafeTransactions.reduce(
-            (acc, transaction) => acc + parseFloat(transaction.amount),
-            0
-          );
-
-          setTotal(updatedTotal);
+          setTotal(response.summary._sum.amount);
         } catch (error) {
           console.error("Error fetching cafe transactions:", error);
         }
@@ -42,8 +39,6 @@ export default function CafeDetails() {
 
     fetchCafeTransactions();
   }, [cafeId]);
-
-  console.log("cafeDetails");
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -67,29 +62,23 @@ export default function CafeDetails() {
     return formattedTime;
   };
 
-  const handleFindTransactions = () => {
-    let updatedTransactions = [];
+  const handleFindTransactions = async () => {
+    try {
+      const transaction = await getCafeTransactionsByDate(
+        cafeId,
+        fromDate,
+        toDate
+      );
+      setFilteredTransactions(transaction.data);
+      setTotal(transaction.summary._sum.amount);
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setFilteredTransactions([]);
+        setTotal(0);
+      }
 
-    if (!fromDate && !toDate) {
-      updatedTransactions = transactions;
-    } else {
-      updatedTransactions = transactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.createdAt);
-        return (
-          (!fromDate || transactionDate >= new Date(fromDate)) &&
-          (!toDate || transactionDate <= new Date(toDate))
-        );
-      });
+      console.error(error);
     }
-
-    setFilteredTransactions(updatedTransactions);
-
-    const updatedTotal = updatedTransactions.reduce(
-      (acc, transaction) => acc + parseFloat(transaction.amount),
-      0
-    );
-
-    setTotal(updatedTotal);
   };
 
   const dropdownAllTransaction = [

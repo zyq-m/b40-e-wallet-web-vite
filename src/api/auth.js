@@ -90,6 +90,10 @@ export const getCafeTransactions = async (cafeId) => {
   return getData(`/admin/cafe/transactions/${cafeId}`);
 };
 
+export const getCafeTransactionsByDate = async (cafeId, from, to) => {
+  return getData(`/admin/cafe/transactions/${cafeId}/${from}/${to}`);
+};
+
 export const getStudentPointsB40 = async () => {
   return getData("/admin/student/points", { params: { b40: true } });
 };

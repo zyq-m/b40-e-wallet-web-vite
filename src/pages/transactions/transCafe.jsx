@@ -23,8 +23,6 @@ export default function Cafe() {
     fetchDataCafeTrans();
   }, []);
 
-  console.log("transCafe");
-
   const fetchDataCafeTrans = async () => {
     try {
       const response = await getCafeData();
