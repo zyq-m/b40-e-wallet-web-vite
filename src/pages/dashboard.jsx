@@ -47,7 +47,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1">
               <div className="pb-2 text-sm font-semibold uppercase border-b-2 border-b-black">
-                Total Coupon Transaction
+                Total Coupon
               </div>
               <div className="mt-3 text-gray-600 ">
                 <span className="font-semibold text-black text-7xl">
@@ -58,7 +58,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1">
               <div className="pb-2 text-sm font-semibold uppercase border-b-2 border-b-black">
-                Total Point Transaction
+                Total Point
               </div>
               <div className="mt-3 text-gray-600 ">
                 <span className="font-semibold text-black text-7xl">

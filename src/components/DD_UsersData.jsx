@@ -22,11 +22,14 @@ const DD_UsersData = ({ options }) => {
       case "Cafe Owner":
         navigate("/usersdata/cafe");
         break;
-      case "Student B40":
-        navigate("/usersdata/studentB40");
+      case "Ekupon":
+        navigate("/usersdata/ekupon");
         break;
-      case "Student Non-B40":
-        navigate("/usersdata/studentNB40");
+      case "Paynet":
+        navigate("/usersdata/paynet");
+        break;
+      case "Maidam":
+        navigate("/usersdata/maidam");
         break;
       default:
         // Handle other options or provide a default behavior

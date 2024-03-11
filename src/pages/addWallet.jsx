@@ -17,7 +17,7 @@ export default function AddWallet() {
 
   const fetchDataStudent = async () => {
     try {
-      const response = await getStudentData();
+      const response = await getStudentData("ekupon");
       setStudent(response.data);
     } catch (error) {
       console.error(error);
@@ -124,33 +124,29 @@ export default function AddWallet() {
             </thead>
             <tbody>
               {filteredStudents.map((studentItem, index) => {
-                if (studentItem.b40 === true) {
-                  return (
-                    <tr key={index} className="text-gray-500">
-                      <td className="pb-6 text-center">
-                        <input
-                          type="checkbox"
-                          checked={selectedStudents.includes(
-                            studentItem.matricNo
-                          )}
-                          onChange={() =>
-                            handleCheckboxChange(studentItem.matricNo)
-                          }
-                        />
-                      </td>
-                      <td className="pb-6 text-left">
-                        {studentItem.user.profile.name}
-                      </td>
-                      <td className="pb-6 text-left">{studentItem.matricNo}</td>
-                      <td className="pb-6 text-left">{studentItem.icNo}</td>
-                      <td className="pb-6 text-center">
-                        {studentItem.coupon.total}
-                      </td>
-                    </tr>
-                  );
-                } else {
-                  return null; // Or handle non-matching items differently if needed
-                }
+                return (
+                  <tr key={index} className="text-gray-500">
+                    <td className="pb-6 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedStudents.includes(
+                          studentItem.matricNo
+                        )}
+                        onChange={() =>
+                          handleCheckboxChange(studentItem.matricNo)
+                        }
+                      />
+                    </td>
+                    <td className="pb-6 text-left">
+                      {studentItem.user.profile.name}
+                    </td>
+                    <td className="pb-6 text-left">{studentItem.matricNo}</td>
+                    <td className="pb-6 text-left">{studentItem.icNo}</td>
+                    <td className="pb-6 text-center">
+                      {studentItem.coupon.total}
+                    </td>
+                  </tr>
+                );
               })}
             </tbody>
           </table>

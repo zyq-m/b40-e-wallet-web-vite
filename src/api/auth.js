@@ -70,8 +70,8 @@ const getData = async (endpoint, params = {}) => {
   return response.data;
 };
 
-export const getStudentData = async () => {
-  return getData("/admin/student");
+export const getStudentData = (role) => {
+  return getData(`/admin/student/${role}`);
 };
 
 export const getCafeData = async () => {

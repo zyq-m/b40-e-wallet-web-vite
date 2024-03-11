@@ -12,8 +12,9 @@ import Dashboard from "./pages/dashboard";
 import AddCafe from "./pages/addCafe";
 import AddStudent from "./pages/addStudent";
 import Cafe from "./pages/usersdata/cafe";
-import StudentB40 from "./pages/usersdata/studentB40";
-import StudentNB40 from "./pages/usersdata/studentNB40";
+import Ekupon from "./pages/usersdata/ekupon";
+import Paynet from "./pages/usersdata/paynet";
+import Maidam from "./pages/usersdata/maidam";
 import AddWallet from "./pages/addWallet";
 import AllCafe from "./pages/transactions/allCafe";
 import AllStudentB40 from "./pages/transactions/allStudentB40";
@@ -49,8 +50,9 @@ export default function App() {
             <Route path="/addCafe" element={<AddCafe />} />
             <Route path="/addStudent" element={<AddStudent />} />
             <Route path="/usersdata/cafe" element={<Cafe />} />
-            <Route path="/usersdata/studentB40" element={<StudentB40 />} />
-            <Route path="/usersdata/studentNB40" element={<StudentNB40 />} />
+            <Route path="/usersdata/ekupon" element={<Ekupon />} />
+            <Route path="/usersdata/paynet" element={<Paynet />} />
+            <Route path="/usersdata/maidam" element={<Maidam />} />
             <Route path="/addWallet" element={<AddWallet />} />
             <Route path="/transactions/allCafe" element={<AllCafe />} />
             <Route

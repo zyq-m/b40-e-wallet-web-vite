@@ -9,13 +9,8 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const dropdownOptions1 = ["Cafe Owner", "Student"];
-  const dropdownOptions2 = ["Cafe Owner", "Student B40", "Student Non-B40"];
-  const dropdownOptions3 = [
-    "All-Cafe",
-    "Cafe Owners",
-    "Student B40",
-    "Student Non-B40",
-  ];
+  const dropdownOptions2 = ["Cafe Owner", "Ekupon", "Paynet", "Maidam"];
+  const dropdownOptions3 = ["All-Cafe", "Cafe Owners", "Ekupon", "Paynet"];
 
   const onLogout = async () => {
     try {
