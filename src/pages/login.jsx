@@ -29,7 +29,7 @@ export default function Login() {
       localStorage.setItem("access-token", res.data.accessToken);
       localStorage.setItem("refresh-token", res.data.refreshToken);
 
-      navigate("/dashboard");
+      navigate("/admin-page");
     } catch (error) {
       // Invalid credential
       console.error(error);

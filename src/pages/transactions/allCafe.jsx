@@ -202,7 +202,7 @@ export default function AllCafe() {
                 <td className="text-center w-fit">
                   <button
                     type="submit"
-                    onClick={() => navigate("/dashboard")}
+                    onClick={() => navigate("/admin-page")}
                     className="mt-5 py-2 px-5 inline-flex justify-center items-center rounded-md border border-transparent font-semibold bg-[#Ffd035] text-black hover:bg-[#E4be3c] focus:outline-none focus:ring-2 focus:ring-[#Ffd035] focus:ring-offset-2 transition-all text-sm"
                   >
                     Mark as claimed

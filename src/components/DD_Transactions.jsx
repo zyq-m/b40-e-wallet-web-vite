@@ -20,16 +20,16 @@ const DD_Transactions = ({ options }) => {
     // Conditionally navigate based on the selected option
     switch (option) {
       case "All-Cafe":
-        navigate("/transactions/allCafe");
+        navigate("/admin-page/transactions/allCafe");
         break;
-      case "Student B40":
-        navigate("/transactions/allStudentB40");
+      case "Ekupon":
+        navigate("/admin-page/transactions/allStudentB40");
         break;
-      case "Student Non-B40":
-        navigate("/transactions/allStudentNB40");
+      case "Paynet":
+        navigate("/admin-page/transactions/allStudentNB40");
         break;
       case "Cafe Owners":
-        navigate("/transactions/transCafe");
+        navigate("/admin-page/transactions/transCafe");
         break;
       default:
         // Handle other options or provide a default behavior

@@ -20,16 +20,16 @@ const DD_UsersData = ({ options }) => {
     // Conditionally navigate based on the selected option
     switch (option) {
       case "Cafe Owner":
-        navigate("/usersdata/cafe");
+        navigate("/admin-page/usersdata/cafe");
         break;
       case "Ekupon":
-        navigate("/usersdata/ekupon");
+        navigate("/admin-page/usersdata/ekupon");
         break;
       case "Paynet":
-        navigate("/usersdata/paynet");
+        navigate("/admin-page/usersdata/paynet");
         break;
       case "Maidam":
-        navigate("/usersdata/maidam");
+        navigate("/admin-page/usersdata/maidam");
         break;
       default:
         // Handle other options or provide a default behavior

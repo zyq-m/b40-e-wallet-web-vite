@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout";
 import { useLocation } from "react-router-dom";
-import { getStudentTransactions } from "../../../../api/auth";
+import { getStudentData, getStudentTransactions } from "../../../../api/auth";
+import { comma } from "postcss/lib/list";
 
 export default function StudentB40Details() {
   const location = useLocation();
   const { state } = location;
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const matricNo = state ? state.matricNo : [];
 
@@ -15,9 +17,8 @@ export default function StudentB40Details() {
       if (matricNo) {
         try {
           const response = await getStudentTransactions(matricNo);
-          const studentTransactions = response?.data;
-
-          setFilteredTransactions(studentTransactions);
+          setFilteredTransactions(response.data);
+          setTotal(response.summary._sum.amount);
         } catch (error) {
           console.error("Error fetching student transactions:", error);
         }
@@ -83,10 +84,18 @@ export default function StudentB40Details() {
                   </tr>
                 ))
               ) : (
-                <td colSpan="4" className="pb-6 text-center">
-                  No Transactions Available
-                </td>
+                <tr>
+                  <td colSpan="4" className="pb-6 text-center">
+                    No Transactions Available
+                  </td>
+                </tr>
               )}
+              <tr>
+                <td className="pb-6 font-medium text-right" colSpan={3}>
+                  Total
+                </td>
+                <td className="pb-6 font-medium text-center">{total}</td>
+              </tr>
             </tbody>
           </table>
         </div>

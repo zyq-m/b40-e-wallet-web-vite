@@ -31,7 +31,7 @@ import SpendLimit from "./pages/spendLimit";
 const ProtectedRoute = () => {
   let token = localStorage.getItem("access-token");
   if (!token) {
-    return <Navigate to={"/login"} replace />;
+    return <Navigate to={"/admin-page/login"} replace />;
   }
 
   return <Outlet />;
@@ -43,45 +43,51 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/admin-page/login" element={<Login />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/spendLimit" element={<SpendLimit />} />
-            <Route path="/addCafe" element={<AddCafe />} />
-            <Route path="/addStudent" element={<AddStudent />} />
-            <Route path="/usersdata/cafe" element={<Cafe />} />
-            <Route path="/usersdata/ekupon" element={<Ekupon />} />
-            <Route path="/usersdata/paynet" element={<Paynet />} />
-            <Route path="/usersdata/maidam" element={<Maidam />} />
-            <Route path="/addWallet" element={<AddWallet />} />
-            <Route path="/transactions/allCafe" element={<AllCafe />} />
+            <Route path="/admin-page" element={<Dashboard />} />
+            <Route path="/admin-page/spendLimit" element={<SpendLimit />} />
+            <Route path="/admin-page/addCafe" element={<AddCafe />} />
+            <Route path="/admin-page/addStudent" element={<AddStudent />} />
+            <Route path="/admin-page/usersdata/cafe" element={<Cafe />} />
+            <Route path="/admin-page/usersdata/ekupon" element={<Ekupon />} />
+            <Route path="/admin-page/usersdata/paynet" element={<Paynet />} />
+            <Route path="/admin-page/usersdata/maidam" element={<Maidam />} />
+            <Route path="/admin-page/addWallet" element={<AddWallet />} />
             <Route
-              path="/transactions/allStudentB40"
+              path="/admin-page/transactions/allCafe"
+              element={<AllCafe />}
+            />
+            <Route
+              path="/admin-page/transactions/allStudentB40"
               element={<AllStudentB40 />}
             />
             <Route
-              path="/transactions/allStudentNB40"
+              path="/admin-page/transactions/allStudentNB40"
               element={<AllStudentNB40 />}
             />
-            <Route path="/transactions/transCafe" element={<TransCafe />} />
             <Route
-              path="/transactions/details/cafeDetails/:cafeID"
+              path="/admin-page/transactions/transCafe"
+              element={<TransCafe />}
+            />
+            <Route
+              path="/admin-page/transactions/details/cafeDetails/:cafeID"
               element={<CafeDetails />}
             />
             <Route
-              path="/transactions/details/studentB40/:matricData"
+              path="/admin-page/transactions/details/studentB40/:matricData"
               element={<StudentB40Details />}
             />
             <Route
-              path="/transactions/details/studentNB40/:matricData"
+              path="/admin-page/transactions/details/studentNB40/:matricData"
               element={<StudentNB40Details />}
             />
             <Route
-              path="/transactions/points/studentB40/:matricData"
+              path="/admin-page/transactions/points/studentB40/:matricData"
               element={<StudentB40DetailsPoints />}
             />
             <Route
-              path="/testingGet/:matricData"
+              path="/admin-page/testingGet/:matricData"
               element={<TestingTransactionDetails />}
             />
           </Route>

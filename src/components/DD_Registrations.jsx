@@ -20,10 +20,10 @@ const DD_Registrations = ({ options }) => {
     // Conditionally navigate based on the selected option
     switch (option) {
       case "Cafe Owner":
-        navigate("/addCafe");
+        navigate("/admin-page/addCafe");
         break;
       case "Student":
-        navigate("/addStudent");
+        navigate("/admin-page/addStudent");
         break;
       default:
         // Handle other options or provide a default behavior

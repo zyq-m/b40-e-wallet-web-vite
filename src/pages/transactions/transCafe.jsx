@@ -11,7 +11,7 @@ export default function Cafe() {
 
   const onCafeTransaction = async (cafeId) => {
     try {
-      navigate(`/transactions/details/cafeDetails/${cafeId}`, {
+      navigate(`/admin-page/transactions/details/cafeDetails/${cafeId}`, {
         state: { cafeId },
       });
     } catch (error) {

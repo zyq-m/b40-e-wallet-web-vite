@@ -16,7 +16,7 @@ const NavBar = () => {
     try {
       await logout();
       localStorage.clear();
-      navigate("/login");
+      navigate("/admin-page/login");
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +29,7 @@ const NavBar = () => {
       <div>
         <button
           type="button"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/admin-page")}
           className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
         >
           Home
@@ -41,7 +41,7 @@ const NavBar = () => {
 
         <button
           type="button"
-          onClick={() => navigate("/addWallet")}
+          onClick={() => navigate("/admin-page/addWallet")}
           className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
         >
           E-Wallet Point
@@ -51,7 +51,7 @@ const NavBar = () => {
 
         <button
           type="button"
-          onClick={() => navigate("/spendLimit")}
+          onClick={() => navigate("/admin-page/spendLimit")}
           className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
         >
           Spend Limit
