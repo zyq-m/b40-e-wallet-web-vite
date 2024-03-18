@@ -1,4 +1,5 @@
 import { api } from "../services/axiosInstance";
+import { saveAs } from "file-saver";
 
 // login
 export const login = async (id, password) => {
@@ -206,5 +207,16 @@ export const updateB40WalletAmount = async (matricNo, amount) => {
     // You can handle the error here if needed
     console.error("Error updating B40 wallet amount:", error);
     throw error;
+  }
+};
+
+export const downloadQR = async () => {
+  try {
+    const response = await api.get("/admin/qr", {
+      responseType: "blob",
+    });
+    saveAs(response.data, "Cafe QR");
+  } catch (error) {
+    console.log(error);
   }
 };

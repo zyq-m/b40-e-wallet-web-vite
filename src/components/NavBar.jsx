@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DD_Registrations from "./DD_Registrations";
 import DD_UsersData from "./DD_UsersData";
 import DD_Transactions from "./DD_Transactions";
-import { logout } from "../api/auth";
+import { logout, downloadQR } from "../api/auth";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -55,6 +55,14 @@ const NavBar = () => {
           className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
         >
           Spend Limit
+        </button>
+
+        <button
+          type="button"
+          onClick={async () => downloadQR()}
+          className="items-center justify-center gap-2 px-4 py-3 text-sm text-gray-700 align-middle transition-all bg-white hs-dropdown-toggle hover:font-bold"
+        >
+          Download Cafe's QR
         </button>
       </div>
 
